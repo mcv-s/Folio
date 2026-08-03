@@ -17,6 +17,18 @@ function saveState(state) {
   localStorage.setItem(widgetStateKey, JSON.stringify(state));
 }
 
+let is24Hour = false;
+
+// Get the 24-hour time setting 
+chrome.storage.local.get("24hourTime", (data) => {
+  is24Hour = data["24hourTime"] === true;
+});
+
+
+
+
+
+
 
 
 
@@ -143,8 +155,8 @@ function makeResizable(el) {
   window.addEventListener("mousemove", (e) => {
     if (!resizing) return;
 
-    const w = startW + (e.clientX - startX - 24);
-    const h = startH + (e.clientY - startY - 20);
+    const w = startW + (e.clientX - startX - 2);
+    const h = startH + (e.clientY - startY - 2);
 
     el.style.width = Math.max(180, w) + "px";
     el.style.height = Math.max(120, h) + "px";
@@ -228,9 +240,45 @@ function parseICS(text) {
       current.title = line.replace("SUMMARY:", "").trim();
     }
 
-    if (line.startsWith("DTSTART")) {
-      current.date = line.split(":")[1];
+
+    if (line.startsWith("SUMMARY:")) {
+      current.title = line.replace("SUMMARY:", "").trim();
     }
+
+    if (line.startsWith("DESCRIPTION:")) {
+      const match = line.match(/https:\/\/app\.todoist\.com\/app\/task\/[^\s\\]+/);
+
+      if (match) {
+        current.url = match[0];
+      }
+    }
+
+    if (line.startsWith("DTSTART")) {
+
+      const value = line.split(":")[1];
+
+      current.rawDate = value;
+      current.hasTime = value.includes("T");
+
+      if (current.hasTime) {
+          // YYYYMMDDTHHMMSSZ
+          current.date = new Date(
+              value.slice(0,4) + "-" +
+              value.slice(4,6) + "-" +
+              value.slice(6,8) + "T" +
+              value.slice(9,11) + ":" +
+              value.slice(11,13) + ":" +
+              value.slice(13,15) + "Z"
+          );
+      } else {
+          // YYYYMMDD
+          current.date = new Date(
+              Number(value.slice(0,4)),
+              Number(value.slice(4,6)) - 1,
+              Number(value.slice(6,8))
+          );
+      }
+  }
 
     // detect recurring tasks
     if (line.startsWith("RRULE")) {
@@ -266,18 +314,6 @@ function parseICS(text) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 /* =========================
    TODOIST WIDGET
    ========================= */
@@ -298,49 +334,92 @@ function loadTodoistWidget() {
 
         const tasks = parseICS(text);
 
-        /* =========================
-        CLEAN + DEDUPE + SORT
+      /* =========================
+        CLEAN + FILTER + SORT
         ========================= */
 
-        // 1. normalize + dedupe by title
-        const seen = new Set();
+      const today = new Date();
 
-        const uniqueTasks = tasks.filter(t => {
-        const key = (t.title || "").trim().toLowerCase();
+      const startOfToday = new Date(
+          today.getFullYear(),
+          today.getMonth(),
+          today.getDate()
+      );
 
-        if (!key || seen.has(key)) return false;
+      const endOfToday = new Date(
+          today.getFullYear(),
+          today.getMonth(),
+          today.getDate() + 1
+      );
 
-        seen.add(key);
-        return true;
-        });
+      // 1. Dedupe
+      const seen = new Set();
 
-        // 2. sort by date (earliest first)
-        uniqueTasks.sort((a, b) => {
-        const da = a.date ? new Date(a.date) : new Date(9999, 0, 1);
-        const db = b.date ? new Date(b.date) : new Date(9999, 0, 1);
-        return da - db;
-        });
+      const uniqueTasks = tasks.filter(t => {
+          const key =
+              (t.title || "").trim().toLowerCase() +
+              "|" +
+              t.date.getTime();
 
-        // 3. render
-        box.innerHTML = uniqueTasks.slice(0, 50).map(t => {
-        const date = t.date
-            ? new Date(t.date).toLocaleDateString()
-            : "No date";
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+      });
 
-        return `
-            <div style="
-            display:flex;
-            justify-content:space-between;
-            gap:10px;
-            padding:6px 0;
-            border-bottom:1px solid rgba(255,255,255,0.08);
-            ">
-            <div style="flex:1;">
-                ${t.title}
-            </div>
-            </div>
-        `;
-        }).join("");
+      // 2. Only today's tasks
+      const todaysTasks = uniqueTasks.filter(t => {
+          if (!t.date) return false;
+
+          return t.date < endOfToday;
+      });
+
+      // 3. Timed first, then all-day
+      todaysTasks.sort((a, b) => {
+
+            const aTimed = a.hasTime;
+            const bTimed = b.hasTime;
+
+          if (aTimed !== bTimed)
+              return aTimed ? -1 : 1;
+
+          return a.date - b.date;
+      });
+
+
+
+      const uses24Hour = is24Hour;
+
+
+
+
+      // 4. Render
+      box.innerHTML = todaysTasks.map(t => {
+
+          let prefix = "◯  ";
+
+          if (t.hasTime) {
+              prefix = " ◯ " + t.date.toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: is24Hour ? false : true
+              }) + " - ";
+          }
+
+          return `
+              <div style="
+                  padding:6px 0;
+                  border-bottom:1px solid rgba(255,255,255,0.08);
+              ">
+                  <a href="${t.url || '#'}" target="_blank" style="
+                      color:inherit;
+                      text-decoration:none;
+                      display:block;
+                  ">
+                      ${prefix}${t.title}
+                  </a>
+              </div>
+          `;
+      }).join("");
 
     } catch (err) {
       box.innerHTML = `<div style="opacity:0.6;">Failed to load tasks</div>`;

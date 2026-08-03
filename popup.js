@@ -44,6 +44,9 @@ applyTheme();
 window.matchMedia('(prefers-color-scheme: light)')
   .addEventListener('change', applyTheme);
 
+
+
+
 // ===== CUSTOM CSS STORAGE =====
 const cssBox = document.getElementById("cssBox");
 
@@ -54,6 +57,25 @@ chrome.storage.local.get("customCSS", (data) => {
 document.getElementById("saveCss").addEventListener("click", () => {
   chrome.storage.local.set({
     customCSS: cssBox.value
+  });
+});
+
+
+
+
+
+// ===== 24-HOUR TIME =====
+const _24hourTimeToggle = document.getElementById("_24hourTimeToggle");
+
+// restore state (default = false)
+chrome.storage.local.get("24hourTime", (data) => {
+  _24hourTimeToggle.checked = data["24hourTime"] === true;
+});
+
+// save on change
+_24hourTimeToggle.addEventListener("change", (e) => {
+  chrome.storage.local.set({
+    "24hourTime": e.target.checked
   });
 });
 
@@ -380,5 +402,13 @@ weatherEnabled.addEventListener("change", (e) => {
     }
   });
 });
+
+
+
+
+
+
+
+
 
 
