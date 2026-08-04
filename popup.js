@@ -1,9 +1,10 @@
-// ===== STORAGE KEYS =====
+﻿// ===== STORAGE KEYS =====
 const ENTER_KEY = "enterLaunch";
 const SEARCH_BAR_KEY = "showSearchBar";
 const REDIRECT_ENABLED_KEY = "redirectEnabled";
 const REDIRECT_URL_KEY = "redirectUrl";
 const SHOW_HISTORY_KEY = "showHistory";
+const GRID_SNAP_KEY = "widgetGridSnap";
 
 
 
@@ -66,6 +67,22 @@ document.getElementById("saveCss").addEventListener("click", () => {
 
 // ===== 24-HOUR TIME =====
 const _24hourTimeToggle = document.getElementById("_24hourTimeToggle");
+
+const widgetGridSnapToggle = document.getElementById("widgetGridSnapToggle");
+
+if (widgetGridSnapToggle) {
+  chrome.storage.local.get(GRID_SNAP_KEY, (data) => {
+    const saved = data[GRID_SNAP_KEY] ?? localStorage.getItem(GRID_SNAP_KEY) === "true";
+    widgetGridSnapToggle.checked = saved === true;
+    localStorage.setItem(GRID_SNAP_KEY, String(saved));
+  });
+
+  widgetGridSnapToggle.addEventListener("change", (e) => {
+    const enabled = e.target.checked;
+    localStorage.setItem(GRID_SNAP_KEY, String(enabled));
+    chrome.storage.local.set({ [GRID_SNAP_KEY]: enabled });
+  });
+}
 
 // restore state (default = false)
 chrome.storage.local.get("24hourTime", (data) => {
@@ -316,10 +333,15 @@ redirectUrlInput.addEventListener("input", (e) => {
 
 
 
+
+
+
+
 // ---------- Integrations -------------
 
-
 const INTEGRATIONS_KEY = "integrations";
+const WIDGET_SETTINGS_URL = "widgetSettings.json";
+const widgetSettingsContainer = document.getElementById("widgetSettingsContainer");
 
 function getIntegrations(cb) {
   chrome.storage.local.get(INTEGRATIONS_KEY, (data) => {
@@ -338,76 +360,107 @@ function setIntegrations(update) {
   });
 }
 
+function saveWidgetSetting(widgetKey, settingKey, value) {
+  getIntegrations((current) => {
+    const widgetState = { ...(current[widgetKey] || {}) };
+    widgetState[settingKey] = value;
 
-
-
-
-
-
-
-
-const todoistEnabled = document.getElementById("todoistEnabled");
-const todoistLink = document.getElementById("todoistLink");
-
-const weatherEnabled = document.getElementById("weatherEnabled");
-
-
-
-
-// restore
-getIntegrations((data) => {
-  const t = data.todoist || { enabled: false, icsUrl: "" };
-  const w = data.weather || { enabled: false };
-
-  todoistEnabled.checked = !!t.enabled;
-  todoistLink.value = t.icsUrl || "";
-
-  weatherEnabled.checked = !!w.enabled;
-});
-
-
-
-
-
-
-
-// save enabled toggle
-todoistEnabled.addEventListener("change", (e) => {
-  setIntegrations({
-    todoist: {
-      enabled: e.target.checked,
-      icsUrl: todoistLink.value || ""
-    }
+    setIntegrations({
+      [widgetKey]: widgetState
+    });
   });
-});
+}
 
-// save url
-todoistLink.addEventListener("input", (e) => {
-  setIntegrations({
-    todoist: {
-      enabled: todoistEnabled.checked,
-      icsUrl: e.target.value
-    }
+function loadWidgetSettingsConfig() {
+  return fetch(WIDGET_SETTINGS_URL).then(async (res) => {
+    const settings = await res.json();
+    return settings.widgets || [];
   });
-});
+}
 
+function createSettingInput(setting, widgetState) {
+  const wrapper = document.createElement("div");
+  wrapper.className = "row";
 
+  const label = document.createElement("span");
+  label.textContent = setting.label;
+  wrapper.appendChild(label);
 
+  if (setting.type === "toggle") {
+    const control = document.createElement("label");
+    control.className = "switch";
 
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.checked = !!(widgetState[setting.key] ?? setting.default);
 
-weatherEnabled.addEventListener("change", (e) => {
-  setIntegrations({
-    weather: {
-      enabled: e.target.checked
-    }
+    input.addEventListener("change", () => {
+      saveWidgetSetting(setting.widgetKey, setting.key, input.checked);
+    });
+
+    const slider = document.createElement("span");
+    slider.className = "slider";
+
+    control.appendChild(input);
+    control.appendChild(slider);
+    wrapper.appendChild(control);
+  } else {
+    const input = document.createElement("input");
+    input.type = "text";
+    input.placeholder = setting.placeholder || "";
+    input.value = widgetState[setting.key] ?? setting.default ?? "";
+    input.style.width = "100%";
+    input.style.padding = "10px";
+    input.style.borderRadius = "10px";
+    input.style.border = "none";
+    input.style.outline = "none";
+    input.style.background = "rgba(0,0,0,0.2)";
+    input.style.color = "var(--text)";
+    input.style.fontSize = "12px";
+    input.style.boxSizing = "border-box";
+    input.style.marginTop = "6px";
+
+    input.addEventListener("input", () => {
+      saveWidgetSetting(setting.widgetKey, setting.key, input.value);
+    });
+
+    wrapper.appendChild(input);
+  }
+
+  return wrapper;
+}
+
+function renderWidgetSettings() {
+  loadWidgetSettingsConfig().then((widgets) => {
+    getIntegrations((integrations) => {
+      widgetSettingsContainer.innerHTML = "";
+
+      widgets.forEach((widget) => {
+        widgetSettingsContainer.appendChild(document.createElement("br"));
+
+        
+        const section = document.createElement("div");
+        section.style.marginTop = "12px";
+
+        const title = document.createElement("div");
+        title.className = "title";
+        title.textContent = widget.title;
+        section.appendChild(title);
+
+        const widgetState = integrations[widget.key] || {};
+
+        widget.settings.forEach((setting) => {
+          const row = createSettingInput({ ...setting, widgetKey: widget.key }, widgetState);
+          section.appendChild(row);
+        });
+
+        widgetSettingsContainer.appendChild(section);
+      });
+    });
   });
-});
+}
 
-
-
-
-
-
+renderWidgetSettings();
 
 
 

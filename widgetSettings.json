@@ -1,0 +1,59 @@
+{
+  "widgets": [
+    {
+      "key": "todoist",
+      "title": "Todoist",
+      "settings": [
+        {
+          "key": "enabled",
+          "label": "Enable todoist widget",
+          "type": "toggle",
+          "default": false
+        },
+        {
+          "key": "icsUrl",
+          "label": "",
+          "type": "text",
+          "placeholder": "Todoist ics link",
+          "default": ""
+        }
+      ]
+    },
+    {
+      "key": "pomodoro",
+      "title": "Pomodoro Timer",
+      "settings": [
+        {
+          "key": "enabled",
+          "label": "Enable pomodoro timer widget",
+          "type": "toggle",
+          "default": false
+        }
+      ]
+    },
+    {
+      "key": "weather",
+      "title": "Weather",
+      "settings": [
+        {
+          "key": "enabled",
+          "label": "Enable weather widget",
+          "type": "toggle",
+          "default": false
+        }
+      ]
+    },
+    {
+      "key": "sticky-note",
+      "title": "Sticky Note",
+      "settings": [
+        {
+          "key": "enabled",
+          "label": "Enable a sticky note widget",
+          "type": "toggle",
+          "default": false
+        }
+      ]
+    }
+  ]
+}

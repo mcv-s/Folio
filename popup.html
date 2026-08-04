@@ -348,52 +348,24 @@ a:active {
 
 <!-- INTEGRATIONS -->
 <details>
-  <summary>Integrations</summary>
-  <div class="info">Folio does not collect your data.</div>
+  <summary>Integrations & Widgets</summary>
+  <br>
+  <div class="title">Widget Settings</div>
+  <div class="row" style="margin-top:12px;">
+    <span>Snap widgets to grid</span>
+    <label class="switch">
+      <input type="checkbox" id="widgetGridSnapToggle">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <br>
+
+  <div id="widgetSettingsContainer" style="margin-top:12px;"></div>
+
+  <br>
+  <div class="info" style="margin-top:12px;">Folio does not collect your data.</div>
   <div class="info">By using Folio, you agree to our privacy policy. <a href="https://mcv-s.github.io/folio/privacy.html" target="_blank" rel="noopener noreferrer">Learn more.</a></div>
-
-
-  <div style="margin-top:12px;">
-
-    <br>
-    <div class="title">Todoist</div>
-      <div class="row">
-        <span>Enable todoist widget</span>
-        <label class="switch">
-          <input type="checkbox" id="todoistEnabled" unchecked>
-          <span class="slider"></span>
-        </label>
-      </div>
-      <input
-        type="text"
-        id="todoistLink"
-        placeholder="Todoist ics link"
-        style="
-          width: 100%;
-          padding: 10px;
-          border-radius: 10px;
-          border: none;
-          outline: none;
-          background: rgba(0,0,0,0.2);
-          color: var(--text);
-          font-size: 12px;
-          box-sizing: border-box;
-        "
-      />
-
-
-      <br><br><br>
-      <div class="title">Weather</div>
-        <div class="row">
-          <span>Enable weather widget</span>
-          <label class="switch">
-            <input type="checkbox" id="weatherEnabled" unchecked>
-            <span class="slider"></span>
-          </label>
-        </div>
-    </div>
-
-      <div class="info">Weather data from api.open-meteo.com. Data may be innacurate if the ip open-meteo receives doesn't reflect your location.</div>
 </details>
 
 
