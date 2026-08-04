@@ -1,5 +1,24 @@
 {
   "widgets": [
+        {
+      "key": "site-pins",
+      "title": "Pinned Sites",
+      "settings": [
+        {
+          "key": "enabled",
+          "label": "Enable pinned sites",
+          "type": "toggle",
+          "default": false
+        },
+        {
+          "key": "pinnedSites",
+          "label": "",
+          "type": "textarea",
+          "placeholder": "Pinned sites (one per line)",
+          "default": ""
+        }
+      ]
+    },
     {
       "key": "todoist",
       "title": "Todoist",

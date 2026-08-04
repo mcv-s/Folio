@@ -405,8 +405,15 @@ function createSettingInput(setting, widgetState) {
     control.appendChild(slider);
     wrapper.appendChild(control);
   } else {
-    const input = document.createElement("input");
-    input.type = "text";
+    const isTextarea = setting.type === "textarea";
+    const input = isTextarea
+      ? document.createElement("textarea")
+      : document.createElement("input");
+
+    if (!isTextarea) {
+      input.type = "text";
+    }
+
     input.placeholder = setting.placeholder || "";
     input.value = widgetState[setting.key] ?? setting.default ?? "";
     input.style.width = "100%";
@@ -419,6 +426,11 @@ function createSettingInput(setting, widgetState) {
     input.style.fontSize = "12px";
     input.style.boxSizing = "border-box";
     input.style.marginTop = "6px";
+
+    if (isTextarea) {
+      input.style.minHeight = "90px";
+      input.style.resize = "vertical";
+    }
 
     input.addEventListener("input", () => {
       saveWidgetSetting(setting.widgetKey, setting.key, input.value);

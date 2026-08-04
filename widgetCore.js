@@ -1,7 +1,7 @@
 const widgetLayer = document.getElementById("widgetLayer");
 const widgetStateKey = "widgetState";
 const GRID_SNAP_KEY = "widgetGridSnap";
-const GRID_SIZE = 24;
+const GRID_SIZE = 25;
 
 export let is24Hour = false;
 
@@ -167,8 +167,8 @@ function makeResizable(el) {
 
     const w = startW + (e.clientX - startX - 2);
     const h = startH + (e.clientY - startY - 2);
-    const snappedW = getGridSnapEnabled() ? Math.max(180, snapValue(w)) : Math.max(180, w);
-    const snappedH = getGridSnapEnabled() ? Math.max(120, snapValue(h)) : Math.max(120, h);
+    const snappedW = getGridSnapEnabled() ? Math.max(100, snapValue(w)) : Math.max(100, w);
+    const snappedH = getGridSnapEnabled() ? Math.max(100, snapValue(h)) : Math.max(100, h);
 
     el.style.width = snappedW + "px";
     el.style.height = snappedH + "px";
