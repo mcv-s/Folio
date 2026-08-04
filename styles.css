@@ -197,6 +197,7 @@ canvas { display: block; }
 }
 .widget-content {
     padding: 10px;
+    padding-bottom: 100px;
     font-size: 12px;
     overflow: auto;
     height: calc(100% - 30px);

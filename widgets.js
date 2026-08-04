@@ -419,7 +419,9 @@ function loadTodoistWidget() {
                   </a>
               </div>
           `;
-      }).join("");
+      }).join("") + `
+            <div style="height:50px;"></div>
+        `;
 
     } catch (err) {
       box.innerHTML = `<div style="opacity:0.6;">Failed to load tasks</div>`;
