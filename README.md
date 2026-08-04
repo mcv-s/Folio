@@ -39,3 +39,19 @@ Then select the extension and it works!
 
 
 Or, you could help improve the extension itself here on Gitub.
+
+# Release notes
+Folio 2.0 is here!
+
+
+Changes:
+
+- A better widget development system for myself
+- A Sticky Note Widget
+- A pomodoro timer widget
+- Automatically generated settings from the json data
+- Centered widget scaling
+- A grid option for better organization and snapping
+- Fixed a bug concerning scrollbars
+- Fixed other bugs
+
