@@ -33,6 +33,8 @@ function resetDisabledWidgetState(integrations, widgetDefinitions) {
   localStorage.setItem(widgetStateKey, JSON.stringify(state));
 }
 
+const storage = window.folioStorage || { get: (keys, cb) => cb({}), set: (items, cb) => cb && cb(items) };
+
 async function loadEnabledWidgets(integrations, widgetDefinitions) {
   const enabledWidgets = widgetDefinitions.filter((widget) => {
     return integrations?.[widget.key]?.enabled;
@@ -51,7 +53,7 @@ async function loadEnabledWidgets(integrations, widgetDefinitions) {
 }
 
 window.addEventListener("load", () => {
-  chrome.storage.local.get(["integrations", "24hourTime"], async (data) => {
+  storage.get(["integrations", "24hourTime"], async (data) => {
     const integrations = data.integrations || {};
 
     set24HourPreference(data["24hourTime"] === true);

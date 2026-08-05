@@ -1,4 +1,15 @@
 
+const storage = window.folioStorage || {
+  get(keys, callback) {
+    callback({});
+  },
+  set(items, callback) {
+    if (typeof callback === "function") setTimeout(() => callback(items), 0);
+  }
+};
+
+const runtimeSendMessage = typeof chrome !== "undefined" && chrome?.runtime?.sendMessage ? chrome.runtime.sendMessage.bind(chrome.runtime) : null;
+
 console.log("chrome.history:", !!chrome?.history);
 
 
@@ -234,9 +245,7 @@ aiOptions.forEach(opt => {
     selectedAI = opt.dataset.value;
 
     localStorage.setItem("selectedAI", selectedAI);
-    chrome.storage.local.set({
-      selectedAI
-    });
+    storage.set({ selectedAI });
 
     aiSelected.firstChild.textContent = opt.textContent + " ";
 
@@ -323,7 +332,7 @@ function applyImage(layer, img, blur) {
 }
 
 /* ---------- MAIN ---------- */
-chrome.storage.local.get(
+storage.get(
   ["bgImage", "bgEnabled", "bgBlur", RANDOM_KEY, RANDOM_ACTIVE_KEY],
   async (data) => {
 
@@ -358,7 +367,7 @@ chrome.storage.local.get(
     // If no cache exists, fetch immediately
     if (!cached) {
       cached = await fetchRandomImageAsDataURL();
-      chrome.storage.local.set({ [RANDOM_KEY]: cached });
+      storage.set({ [RANDOM_KEY]: cached });
     }
 
     applyImage(layer, cached, blur);
@@ -368,7 +377,7 @@ chrome.storage.local.get(
     // Preload next image in background (non-blocking)
     fetchRandomImageAsDataURL()
       .then((img) => {
-        chrome.storage.local.set({ [RANDOM_KEY]: img });
+        storage.set({ [RANDOM_KEY]: img });
       })
       .catch((e) => console.warn("Random cache failed:", e));
   }
@@ -381,7 +390,7 @@ chrome.storage.local.get(
 
 /* Redirect if the user wants */
 
-chrome.storage.local.get(
+storage.get(
   ["redirectEnabled", "redirectUrl"],
   (data) => {
     if (data.redirectEnabled && data.redirectUrl) {
@@ -411,7 +420,7 @@ chrome.storage.local.get(
 function applyCustomCSS() {
   console.log("CSS CHECK: running");
 
-  chrome.storage.local.get(null, (data) => {
+  storage.get(null, (data) => {
     const css = data.customCSS;
 
     if (!css) {
@@ -494,7 +503,7 @@ function updateHistoryVisibility() {
 
   if (!historyPanel) return;
 
-  chrome.storage.local.get("showHistory", (data) => {
+  storage.get("showHistory", (data) => {
     const enabled = data.showHistory === true;
 
     historyPanel.classList.toggle("hidden", !enabled);
@@ -535,7 +544,12 @@ function loadHistory() {
   const el = document.getElementById("historyList");
   if (!el) return;
 
-  chrome.runtime.sendMessage({action:"getHistory"}, (results=[]) => {
+  if (!runtimeSendMessage) {
+    el.innerHTML = `<div class="history-item"><div class="history-icon"></div><div class="history-text">History is unavailable in browser mode</div></div>`;
+    return;
+  }
+
+  runtimeSendMessage({action:"getHistory"}, (results=[]) => {
     el.innerHTML = "";
 
     if (results.length === 0) {

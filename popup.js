@@ -1,4 +1,12 @@
-﻿// ===== STORAGE KEYS =====
+﻿const storage = window.folioStorage || {
+  get(keys, callback) { callback({}); },
+  set(items, callback) { if (typeof callback === "function") setTimeout(() => callback(items), 0); }
+};
+
+const hasChromeTabs = typeof chrome !== "undefined" && chrome?.tabs?.create;
+const runtimeGetURL = typeof chrome !== "undefined" && chrome?.runtime?.getURL ? chrome.runtime.getURL.bind(chrome.runtime) : (path) => path;
+
+// ===== STORAGE KEYS =====
 const ENTER_KEY = "enterLaunch";
 const SEARCH_BAR_KEY = "showSearchBar";
 const REDIRECT_ENABLED_KEY = "redirectEnabled";
@@ -51,12 +59,12 @@ window.matchMedia('(prefers-color-scheme: light)')
 // ===== CUSTOM CSS STORAGE =====
 const cssBox = document.getElementById("cssBox");
 
-chrome.storage.local.get("customCSS", (data) => {
+storage.get("customCSS", (data) => {
   cssBox.value = data.customCSS || "";
 });
 
 document.getElementById("saveCss").addEventListener("click", () => {
-  chrome.storage.local.set({
+  storage.set({
     customCSS: cssBox.value
   });
 });
@@ -71,7 +79,7 @@ const _24hourTimeToggle = document.getElementById("_24hourTimeToggle");
 const widgetGridSnapToggle = document.getElementById("widgetGridSnapToggle");
 
 if (widgetGridSnapToggle) {
-  chrome.storage.local.get(GRID_SNAP_KEY, (data) => {
+  storage.get(GRID_SNAP_KEY, (data) => {
     const saved = data[GRID_SNAP_KEY] ?? localStorage.getItem(GRID_SNAP_KEY) === "true";
     widgetGridSnapToggle.checked = saved === true;
     localStorage.setItem(GRID_SNAP_KEY, String(saved));
@@ -80,18 +88,18 @@ if (widgetGridSnapToggle) {
   widgetGridSnapToggle.addEventListener("change", (e) => {
     const enabled = e.target.checked;
     localStorage.setItem(GRID_SNAP_KEY, String(enabled));
-    chrome.storage.local.set({ [GRID_SNAP_KEY]: enabled });
+    storage.set({ [GRID_SNAP_KEY]: enabled });
   });
 }
 
 // restore state (default = false)
-chrome.storage.local.get("24hourTime", (data) => {
+storage.get("24hourTime", (data) => {
   _24hourTimeToggle.checked = data["24hourTime"] === true;
 });
 
 // save on change
 _24hourTimeToggle.addEventListener("change", (e) => {
-  chrome.storage.local.set({
+  storage.set({
     "24hourTime": e.target.checked
   });
 });
@@ -112,13 +120,13 @@ _24hourTimeToggle.addEventListener("change", (e) => {
 const showHistoryToggle = document.getElementById("showHistory");
 
 // restore state (default = false)
-chrome.storage.local.get(SHOW_HISTORY_KEY, (data) => {
+storage.get(SHOW_HISTORY_KEY, (data) => {
   showHistoryToggle.checked = data[SHOW_HISTORY_KEY] === true;
 });
 
 // save on change
 showHistoryToggle.addEventListener("change", (e) => {
-  chrome.storage.local.set({
+  storage.set({
     [SHOW_HISTORY_KEY]: e.target.checked
   });
 });
@@ -150,13 +158,13 @@ const bgToggle = document.getElementById("bgToggle");
 
 
 // restore state
-chrome.storage.local.get(BG_ENABLED_KEY, (data) => {
+storage.get(BG_ENABLED_KEY, (data) => {
   bgToggle.checked = data[BG_ENABLED_KEY] === true;
 });
 
 // save state on change
 bgToggle.addEventListener("change", (e) => {
-  chrome.storage.local.set({
+  storage.set({
     [BG_ENABLED_KEY]: e.target.checked
   });
 });
@@ -201,7 +209,7 @@ const uploadBtn = bgUpload.closest(".upload-btn");
 uploadBtn.parentNode.insertBefore(previewWrapper, uploadBtn);
 
 // load saved image
-chrome.storage.local.get(BG_KEY, (data) => {
+storage.get(BG_KEY, (data) => {
   const img = data[BG_KEY];
 
   if (img) {
@@ -224,7 +232,7 @@ bgUpload.addEventListener("change", (e) => {
     const imgData = reader.result;
 
     // save to storage
-    chrome.storage.local.set({
+    storage.set({
       [BG_KEY]: imgData
     });
 
@@ -242,13 +250,13 @@ const BLUR_KEY = "bgBlur";
 const blurSlider = document.getElementById("blurSlider");
 
 // restore
-chrome.storage.local.get(BLUR_KEY, (data) => {
+storage.get(BLUR_KEY, (data) => {
   blurSlider.value = data[BLUR_KEY] || 0;
 });
 
 // save
 blurSlider.addEventListener("input", (e) => {
-  chrome.storage.local.set({
+  storage.set({
     [BLUR_KEY]: Number(e.target.value)
   });
 });
@@ -269,13 +277,13 @@ const RANDOM_KEY = "bgRandom";
 const randomToggle = document.getElementById("toggleRandom");
 
 // restore state (DEFAULT = OFF)
-chrome.storage.local.get(RANDOM_KEY, (data) => {
+storage.get(RANDOM_KEY, (data) => {
   randomToggle.checked = data[RANDOM_KEY] === true;
 });
 
 // save on change
 randomToggle.addEventListener("change", (e) => {
-  chrome.storage.local.set({
+  storage.set({
     [RANDOM_KEY]: e.target.checked
   });
 });
@@ -295,25 +303,25 @@ const redirectToggle = document.getElementById("redirectToggle");
 const redirectUrlInput = document.getElementById("redirectUrl");
 
 // restore toggle
-chrome.storage.local.get(REDIRECT_ENABLED_KEY, (data) => {
+storage.get(REDIRECT_ENABLED_KEY, (data) => {
   redirectToggle.checked = data[REDIRECT_ENABLED_KEY] === true;
 });
 
 // save toggle
 redirectToggle.addEventListener("change", (e) => {
-  chrome.storage.local.set({
+  storage.set({
     [REDIRECT_ENABLED_KEY]: e.target.checked
   });
 });
 
 // restore URL
-chrome.storage.local.get(REDIRECT_URL_KEY, (data) => {
+storage.get(REDIRECT_URL_KEY, (data) => {
   redirectUrlInput.value = data[REDIRECT_URL_KEY] || "";
 });
 
 // save URL (on input)
 redirectUrlInput.addEventListener("input", (e) => {
-  chrome.storage.local.set({
+  storage.set({
     [REDIRECT_URL_KEY]: e.target.value
   });
 });
@@ -344,17 +352,17 @@ const WIDGET_SETTINGS_URL = "widgetSettings.json";
 const widgetSettingsContainer = document.getElementById("widgetSettingsContainer");
 
 function getIntegrations(cb) {
-  chrome.storage.local.get(INTEGRATIONS_KEY, (data) => {
+  storage.get(INTEGRATIONS_KEY, (data) => {
     cb(data[INTEGRATIONS_KEY] || {});
   });
 }
 
 function setIntegrations(update) {
-  chrome.storage.local.get(INTEGRATIONS_KEY, (data) => {
+  storage.get(INTEGRATIONS_KEY, (data) => {
     const current = data[INTEGRATIONS_KEY] || {};
     const next = { ...current, ...update };
 
-    chrome.storage.local.set({
+    storage.set({
       [INTEGRATIONS_KEY]: next
     });
   });
@@ -501,9 +509,13 @@ if (isTab) {
 
 } else {
   document.getElementById("openInTab")?.addEventListener("click", () => {
-    chrome.tabs.create({
-      url: chrome.runtime.getURL("popup.html?tab=1")
-    });
+    const url = runtimeGetURL("popup.html?tab=1");
+
+    if (hasChromeTabs) {
+      chrome.tabs.create({ url });
+    } else {
+      window.open(url, "_blank");
+    }
 
     window.close();
   });
