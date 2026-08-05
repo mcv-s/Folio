@@ -154,18 +154,35 @@ showHistoryToggle.addEventListener("change", (e) => {
 // Image enabled storage
 
 const BG_ENABLED_KEY = "bgEnabled";
+const BG_USE_LINK_KEY = "bgUseImageLink";
+const BG_LINK_KEY = "bgImageLink";
 const bgToggle = document.getElementById("bgToggle");
-
+const bgLinkToggle = document.getElementById("bgLinkToggle");
+const bgLinkInput = document.getElementById("bgLink");
 
 // restore state
-storage.get(BG_ENABLED_KEY, (data) => {
+storage.get([BG_ENABLED_KEY, BG_USE_LINK_KEY, BG_LINK_KEY], (data) => {
   bgToggle.checked = data[BG_ENABLED_KEY] === true;
+  bgLinkToggle.checked = data[BG_USE_LINK_KEY] === true;
+  bgLinkInput.value = data[BG_LINK_KEY] || "";
 });
 
 // save state on change
 bgToggle.addEventListener("change", (e) => {
   storage.set({
     [BG_ENABLED_KEY]: e.target.checked
+  });
+});
+
+bgLinkToggle.addEventListener("change", (e) => {
+  storage.set({
+    [BG_USE_LINK_KEY]: e.target.checked
+  });
+});
+
+bgLinkInput.addEventListener("input", (e) => {
+  storage.set({
+    [BG_LINK_KEY]: e.target.value
   });
 });
 
@@ -240,6 +257,7 @@ bgUpload.addEventListener("change", (e) => {
     preview.src = imgData;
     preview.style.display = "block";
     previewWrapper.style.display = "block";
+    preview.style.filter = `blur(${blurSlider.value/100}px)`;
   };
 
   reader.readAsDataURL(file);
@@ -252,13 +270,16 @@ const blurSlider = document.getElementById("blurSlider");
 // restore
 storage.get(BLUR_KEY, (data) => {
   blurSlider.value = data[BLUR_KEY] || 0;
+  preview.style.filter = `blur(${blurSlider.value}px)`;
 });
 
 // save
 blurSlider.addEventListener("input", (e) => {
+  const value = Number(e.target.value);
   storage.set({
-    [BLUR_KEY]: Number(e.target.value)
+    [BLUR_KEY]: value
   });
+  preview.style.filter = `blur(${value}px)`;
 });
 
 

@@ -379,10 +379,41 @@ details[open] .details-content {
     </label>
   </div>
   <div class="info">Random images from https://picsum.photos/1920/1080</div>
+  <hr>
+  <div class="title">Image Link</div>
+  
+  <div class="row" style="margin-top:12px;">
+    <span>Use Image Link</span>
+    <label class="switch">
+      <input type="checkbox" id="bgLinkToggle">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div style="margin-top:10px;">
+    
+        <input
+      type="text"
+      id="bgLink"
+      placeholder="https://example.com/image.jpg"
+      style="
+        width: 100%;
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        outline: none;
+        background: rgba(0,0,0,0.2);
+        color: var(--text);
+        font-size: 12px;
+        box-sizing: border-box;
+      "
+    />
+    <div class="hint">Use a direct image URL for the background when enabled.</div>
+  </div>
   
   <hr>
 
-  <div style="margin-top:10px;">
+  <div style="margin-top:10px;"></div>
     <div class="title">Blur Strength</div>
 
     <input type="range" id="blurSlider" min="0" max="20" value="0" step="1" style="width:100%;">

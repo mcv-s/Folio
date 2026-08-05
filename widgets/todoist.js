@@ -102,7 +102,117 @@ export async function init(todoist) {
   `;
 
 
+  async function refresh() {
+
+  if (document.hidden)
+    return;
+
   try {
+
+    const res = await fetch(todoist.icsUrl, {
+      cache: "no-store"
+    });
+
+    const text = await res.text();
+
+    const tasks = parseICS(text);
+
+    const today = new Date();
+
+    const endOfToday = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate() + 1
+    );
+
+    const seen = new Set();
+
+    const uniqueTasks = tasks.filter(t => {
+
+      const key =
+        (t.title || "").trim().toLowerCase()
+        + "|" +
+        t.date.getTime();
+
+      if (seen.has(key))
+        return false;
+
+      seen.add(key);
+      return true;
+
+    });
+
+    const todaysTasks = uniqueTasks.filter(t => {
+
+      if (!t.date)
+        return false;
+
+      return t.date < endOfToday;
+
+    });
+
+    todaysTasks.sort((a,b)=>{
+
+      const aTimed = a.hasTime;
+      const bTimed = b.hasTime;
+
+      if (aTimed !== bTimed)
+        return aTimed ? -1 : 1;
+
+      return a.date - b.date;
+
+    });
+
+    box.innerHTML =
+      todaysTasks.map(t => {
+
+        let prefix = "◯  ";
+
+        if (t.hasTime) {
+
+          prefix =
+            " ◯ " +
+            t.date.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: is24Hour ? false : true
+            })
+            +
+            " - ";
+
+        }
+
+        return `
+          <div style="
+            padding:6px 0;
+            border-bottom:1px solid rgba(255,255,255,0.08);
+          ">
+            <a href="${t.url || '#'}"
+               target="_blank"
+               style="
+                color:inherit;
+                text-decoration:none;
+                display:block;
+               ">
+              ${prefix}${t.title}
+            </a>
+          </div>
+        `;
+
+      }).join("");
+
+  } catch(err) {
+
+    box.innerHTML = `
+      <div style="opacity:0.6;">
+        Failed to load tasks
+      </div>
+    `;
+
+  }
+
+}
+
 
     const res = await fetch(todoist.icsUrl);
     const text = await res.text();
@@ -207,21 +317,7 @@ export async function init(todoist) {
           </div>
         `;
 
-      }).join("")
-      +
-      `
-        <div style="height:50px;"></div>
-      `;
+      }).join("");
 
-
-  } catch(err) {
-
-    box.innerHTML = `
-      <div style="opacity:0.6;">
-        Failed to load tasks
-      </div>
-    `;
-
-  }
 
 }

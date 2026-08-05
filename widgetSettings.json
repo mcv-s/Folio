@@ -46,6 +46,25 @@
       ]
     },
     {
+      "key": "calendar",
+      "title": "Calendar",
+      "settings": [
+        {
+          "key": "enabled",
+          "label": "Enable a calendar widget",
+          "type": "toggle",
+          "default": false
+        },
+        {
+          "key": "calendarLinks",
+          "label": "",
+          "type": "textarea",
+          "placeholder": "Calendar iCS links (one per line)",
+          "default": ""
+        }
+      ]
+    },
+    {
       "key": "pomodoro",
       "title": "Pomodoro Timer",
       "settings": [
@@ -78,6 +97,32 @@
           "label": "Enable a sticky note widget",
           "type": "toggle",
           "default": false
+        }
+      ]
+    },
+    {
+      "key": "trmnl",
+      "title": "TRMNL Mirror",
+      "settings": [
+        {
+          "key": "enabled",
+          "label": "Enable TRMNL mirror widget",
+          "type": "toggle",
+          "default": false
+        },
+        {
+          "key": "trmnlApiKey",
+          "label": "",
+          "type": "text",
+          "placeholder": "TRMNL API Key",
+          "default": ""
+        },
+        {
+          "key": "none",
+          "label": "Your Device > Developer Perks",
+          "type": "link",
+          "value": "https://trmnl.com/devices/",
+          "default": ""
         }
       ]
     }

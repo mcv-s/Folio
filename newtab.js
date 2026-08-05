@@ -32,6 +32,8 @@ const FOLIO_DEFAULTS = {
   bgImage: "theme_bg.png",
   bgBlur: 15,
   bgRandom: false,
+  bgUseImageLink: false,
+  bgImageLink: "",
 
   // Search
   showSearchBar: true,
@@ -359,6 +361,8 @@ document.addEventListener("click", () => {
 
 const RANDOM_KEY = "bgRandomCache";
 const RANDOM_ACTIVE_KEY = "bgRandom";
+const BG_USE_LINK_KEY = "bgUseImageLink";
+const BG_LINK_KEY = "bgImageLink";
 
 /* ---------- helper: create background layer ---------- */
 function createLayer() {
@@ -403,12 +407,14 @@ function applyImage(layer, img, blur) {
 
 /* ---------- MAIN ---------- */
 storage.get(
-  ["bgImage", "bgEnabled", "bgBlur", RANDOM_KEY, RANDOM_ACTIVE_KEY],
+  ["bgImage", "bgEnabled", "bgBlur", RANDOM_KEY, RANDOM_ACTIVE_KEY, BG_USE_LINK_KEY, BG_LINK_KEY],
   async (data) => {
 
     const enabled = data.bgEnabled === true;
     const blur = data.bgBlur || 0;
     const randomOn = data[RANDOM_ACTIVE_KEY] === true;
+    const useImageLink = data[BG_USE_LINK_KEY] === true;
+    const imageLink = data[BG_LINK_KEY] || "";
 
     const canvas = document.getElementById("c");
 
@@ -421,8 +427,12 @@ storage.get(
        USER IMAGE MODE
        ========================= */
     if (!randomOn) {
-      const img = data.bgImage || "";
-      applyImage(layer, img, blur);
+      if (useImageLink && imageLink) {
+        applyImage(layer, imageLink, blur);
+      } else {
+        const img = data.bgImage || "";
+        applyImage(layer, img, blur);
+      }
 
       if (canvas) canvas.style.display = "block";
       return;
@@ -628,6 +638,64 @@ function loadHistory() {
 window.addEventListener("load", () => setTimeout(loadHistory, 300));
 
 
+
+
+
+
+
+
+
+
+
+// Generic fetch helper for widgets
+
+window.folioFetch = async function(url, options = {}) {
+
+  try {
+
+    const response = await fetch(url, {
+      method: options.method || "GET",
+      headers: options.headers || {}
+    });
+
+
+    if (!response.ok) {
+
+      console.error(
+        "Fetch failed:",
+        response.status,
+        url
+      );
+
+      return null;
+
+    }
+
+
+    const type =
+      options.type || "text";
+
+
+    if(type === "json")
+      return await response.json();
+
+
+    return await response.text();
+
+  }
+  catch(error) {
+
+    console.error(
+      "Fetch error:",
+      url,
+      error
+    );
+
+    return null;
+
+  }
+
+};
 
 
 
