@@ -131,3 +131,17 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
 
 
 
+
+
+
+
+chrome.commands.onCommand.addListener((command) => {
+  if (command === "open-folio-search") {
+    chrome.tabs.create({
+      url: chrome.runtime.getURL("newtab.html")
+    });
+  }
+});
+
+
+
