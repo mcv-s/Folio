@@ -1,231 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Folio: Ultimate New Tab</title>
+    <title>Folio: Ultimate New Tab</title>
 
-<link rel="icon" type="image/png" href="icons/Folio-Icon-Main.png">
+    <link rel="icon" type="image/png" href="icons/Folio-Icon-Main.png">
 
-<meta name="description" content="Folio is a customizable Chromium new tab extension with AI search, widgets, integrations, and custom backgrounds.">
+    <meta name="description"
+        content="Folio is a customizable Chromium new tab extension with AI search, widgets, integrations, and custom backgrounds.">
 
-<meta name="keywords" content="Folio, Chromium extension, new tab, browser extension, widgets, AI search">
+    <meta name="keywords" content="Folio, Chromium extension, new tab, browser extension, widgets, AI search">
 
-<meta name="author" content="Folio">
+    <meta name="author" content="Folio">
 
-<!-- Open Graph (Discord, Facebook, etc.) -->
-<meta property="og:title" content="Folio: Ultimate New Tab">
-<meta property="og:description" content="A simple, customizable Chromium new tab experience.">
-<meta property="og:image" content="icons/Folio-Icon-Main.png">
-<meta property="og:type" content="website">
+    <!-- Open Graph (Discord, Facebook, etc.) -->
+    <meta property="og:title" content="Folio: Ultimate New Tab">
+    <meta property="og:description" content="A simple, customizable Chromium new tab experience.">
+    <meta property="og:image" content="icons/Folio-Icon-Main.png">
+    <meta property="og:type" content="website">
 
-<!-- Twitter/X preview -->
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Folio: Ultimate New Tab">
-<meta name="twitter:description" content="A simple, customizable Chromium new tab experience.">
-<meta name="twitter:image" content="icons/Folio-Icon-Main.png">
+    <!-- Twitter/X preview -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Folio: Ultimate New Tab">
+    <meta name="twitter:description" content="A simple, customizable Chromium new tab experience.">
+    <meta name="twitter:image" content="icons/Folio-Icon-Main.png">
 
-<title>Folio: Ultimate New Tab</title>
-
-
-
-<style>
-
-:root {
-    --bg:#212121;
-    --card:rgba(33,33,33,.55);
-    --text:rgba(255,255,255,.92);
-    --muted:rgba(255,255,255,.55);
-    --border:rgba(255,255,255,.08);
-    --accent:#4f9cff;
-}
+    <title>Folio: Ultimate New Tab</title>
 
 
-@media (prefers-color-scheme: light) {
-    :root {
-        --bg:#f0f0f0;
-        --card:rgba(255,255,255,.65);
-        --text:rgba(0,0,0,.85);
-        --muted:rgba(0,0,0,.55);
-        --border:rgba(0,0,0,.08);
+    <link rel="stylesheet" href="styleVars.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+
+        :root {
+            --hero-dark-tint: 0.6;  /* Dark mode image darkness */
+            --hero-light-tint: 0; /* Light mode image darkness */
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--text);
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+
+    .hero {
+        height: 100vh;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        text-align: center;
+
+        position: relative;
+        overflow: hidden;
     }
-}
 
 
-* {
-    box-sizing:border-box;
-}
+    
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: -20px;
 
-
-body {
-    margin:0;
-    min-height:100vh;
-    background:var(--bg);
-    color:var(--text);
-    font-family:system-ui,-apple-system,sans-serif;
-}
-
-
-.hero {
-    height:100vh;
     background:
         linear-gradient(
-            rgba(0, 0, 0, 0.247),
-            var(--bg)
+            rgba(0,0,0,var(--hero-dark-tint)),
+            rgba(0,0,0,var(--hero-dark-tint))
         ),
         url("theme_bg.png");
 
-    background-size:cover;
-    background-position:center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
+    filter: blur(8px);
+    transform: scale(1.05);
 
-    text-align:center;
+    z-index: 0;
+}
+
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+        transparent 55%,
+        var(--bg) 100%
+    );
+
+    z-index: 1;
+}
+
+
+.hero > * {
+    position: relative;
+    z-index: 2;
 }
 
 
 @media (prefers-color-scheme: light) {
-    .hero {
+
+    .hero::before {
         background:
-        linear-gradient(
-            rgba(255,255,255,.45),
-            rgba(255,255,255,.7)
-        ),
-        url("theme_bg.png");
+            linear-gradient(
+                rgba(0,0,0,var(--hero-light-tint)),
+                rgba(0,0,0,var(--hero-light-tint))
+            ),
+            url("theme_bg.png");
+            background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
     }
-}
 
-
-.hero h1 {
-    font-size:42px;
-    margin:0;
-}
-
-
-.hero p {
-    margin:8px;
-    color:var(--muted);
-}
-
-
-.actions {
-    display:flex;
-    gap:10px;
-    margin-top:20px;
-}
-
-
-.button {
-    padding:9px 16px;
-    border-radius:999px;
-    text-decoration:none;
-    color:white;
-    background:var(--accent);
-    font-size:14px;
-}
-
-
-.secondary {
-    background:var(--card);
-    border:1px solid var(--border);
-    backdrop-filter:blur(18px);
-}
-
-
-.container {
-    width:min(900px,calc(100% - 32px));
-    margin:24px auto;
-}
-
-
-.card {
-    background:var(--card);
-    backdrop-filter:blur(18px) saturate(120%);
-    -webkit-backdrop-filter:blur(18px) saturate(120%);
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:18px;
-    margin-bottom:14px;
-}
-
-
-.title {
-    font-size:13px;
-    color:var(--muted);
-    font-weight:700;
-    margin-bottom:12px;
-}
-
-
-.features {
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:10px;
-}
-
-
-.feature {
-    background:rgba(255,255,255,.04);
-    border-radius:12px;
-    padding:14px;
-}
-
-
-.feature h3 {
-    margin:0 0 6px;
-    font-size:14px;
-}
-
-
-.feature p {
-    margin:0;
-    font-size:13px;
-    color:var(--muted);
-}
-
-
-img.preview {
-    width:100%;
-    border-radius:14px;
-    margin-top:14px;
-}
-
-
-li {
-    margin:6px 0;
-    color:var(--muted);
-}
-
-
-a {
-    color:var(--accent);
-}
-
-
-
-
-
-.footer {
-    width:min(900px,calc(100% - 32px));
-    margin:40px auto 24px;
-    padding:16px;
-    text-align:center;
-    color:var(--muted);
-    font-size:12px;
-}
-
-.footer a {
-    color:var(--muted);
-    text-decoration:none;
-    transition:.15s ease;
-}
-
-.footer a:hover {
-    color:var(--accent);
 }
 
 
@@ -233,224 +136,448 @@ a {
 
 
 
+    
 
-</style>
+        .hero {
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin: 0;
+        }
+
+
+        .hero p {
+            margin: 8px;
+            color: var(--muted);
+        }
+
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+
+        .button {
+            padding: 9px 16px;
+            border-radius: 999px;
+            text-decoration: none;
+            color: var(--text);
+            background: var(--accent);
+            font-size: 14px;
+            transition: 0.2s ease;
+        }
+
+
+        .button:hover {
+            background: var(--button-hover-1);
+            transform: translateY(-2px);
+        }
+
+
+        .secondary {
+            background: var(--card);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(18px);
+        }
+
+
+        .container {
+            width: min(900px, calc(100% - 32px));
+            margin: 24px auto;
+        }
+
+
+        .card {
+            background: var(--card);
+            backdrop-filter: blur(18px) saturate(120%);
+            -webkit-backdrop-filter: blur(18px) saturate(120%);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 14px;
+        }
+
+
+        .title {
+            font-size: 13px;
+            color: var(--muted);
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+        }
+
+
+        .feature {
+            background: rgba(255, 255, 255, .04);
+            border-radius: 12px;
+            padding: 14px;
+        }
+
+
+        .feature h3 {
+            margin: 0 0 6px;
+            font-size: 14px;
+        }
+
+
+        .feature p {
+            margin: 0;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .feature p2 {
+            margin: 0;
+            font-size: 7px;
+            color: var(--muted);
+        }
+
+
+        img.preview {
+            width: 100%;
+            border-radius: 14px;
+            margin-top: 14px;
+        }
+
+
+        li {
+            margin: 6px 0;
+            color: var(--muted);
+        }
+
+
+        a {
+            color: var(--accent);
+        }
+
+
+
+
+
+        .footer {
+            width: min(900px, calc(100% - 32px));
+            margin: 40px auto 24px;
+            padding: 16px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .footer a {
+            color: var(--muted);
+            text-decoration: none;
+            transition: .15s ease;
+        }
+
+        .footer a:hover {
+            color: var(--accent);
+        }
+
+
+        description {
+            display: block;
+            margin-top: 12px;
+            color: var(--text);
+            font-size: 15px;
+
+        }
+
+
+    </style>
 
 </head>
 
 <body>
 
 
-<div class="hero">
+    <div class="hero">
 
-<h1>Folio: Ultimate New Tab</h1>
+        <h1>Folio: Ultimate New Tab</h1>
 
-<p>
-A simple, customizable Chromium new tab experience.
-</p><br>
+        <p>
+            A simple, customizable Chromium new tab experience.
+        </p><br>
 
-<p>
-Built with simplicity in mind.
-</p>
+        <p>
+            Built with simplicity in mind.
+        </p>
 
 
-<div class="actions">
+        <div class="actions">
 
-<a class="button"
-href="https://github.com/mcv-s/folio">
-GitHub
-</a>
+            <a class="button" href="#setup">
+                Setup
+            </a>
 
-<a class="button secondary"
-href="https://mcv-s.github.io/folio/privacy.html">
-Privacy Policy
-</a>
+            <a class="button secondary" href="https://mcv-s.github.io/folio/newtab.html" target="_blank">
+                Live demo
+            </a>
 
-</div>
+        </div>
 
-</div>
-
-
-
-<div class="container">
-
-
-<div class="card">
-
-<div class="title">
-Preview
-</div>
-
-<img class="preview"
-src="Preview.png">
-
-</div>
-
-
-
-<div class="card">
-
-<div class="title">
-Features
-</div>
-
-
-<div class="features">
-
-<div class="feature">
-<h3>AI Search</h3>
-<p>Search with your preferred AI provider instantly.</p>
-</div>
-
-
-<div class="feature">
-<h3>Widgets and Integrations</h3>
-<p>Optionally add tools like timers, notes, and integrations.</p>
-</div>
-
-
-<div class="feature">
-<h3>Backgrounds</h3>
-<p>Use custom or randomized backgrounds.</p>
-</div>
-
-
-<div class="feature">
-<h3>Simple</h3>
-<p>A useful new tab without unnecessary clutter.</p>
-</div>
-
-</div>
-
-</div>
-
-
-
-<div class="card">
-<div class="title">
-Folio 2.0
-</div>
-
-<ul>
-<li>Improved widget development system</li>
-<li>Sticky Note Widget</li>
-<li>Pomodoro Timer Widget</li>
-<li>Generated widget settings</li>
-<li>Centered widget scaling</li>
-<li>Grid snapping</li>
-<li>Bug fixes and improvements</li>
-</ul>
-
-</div>
-
-
-
-
-
-
-
-
-
-<div class="card">
-
-<div class="title">
-Setup
-</div>
-
-<ol>
-
-<li>
-Download the latest version of the extension from
-<a href="https://github.com/mcv-s/Folio/archive/refs/heads/main.zip">
-GitHub
-</a>.
-</li>
-
-<li>
-Unzip the extension.
-</li>
-
-<li>
-Go to your browser's extensions page.
-</li>
-
-<li>
-Enable Developer Mode if it is not already enabled.
-<br><br>
-
-<img 
-    width="308"
-    height="123"
-    alt="Enable Developer Mode"
-    src="https://github.com/user-attachments/assets/767f98cd-f37e-45d5-9150-d7fd73e03e42">
-
-</li>
-
-<li>
-Select <b>Load Unpacked</b>.
-<br><br>
-
-<img
-    width="357"
-    height="59"
-    alt="Load Unpacked"
-    src="https://github.com/user-attachments/assets/76aefcd0-1b92-4b15-a7c2-3a8a6a1dd261">
-
-</li>
-
-<li>
-Select the unzipped Folio extension folder and you're ready to go!
-</li>
-
-</ol>
-
-Yes - it's a bit sketchy to load unpacked extensions, but this is the only way to use Folio until it's published on the Chrome Web Store.
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-
-
-
-
-<footer class="footer">
-
-    <div>
-        Folio · Ultimate New Tab
     </div>
 
-    <div style="margin-top:8px;">
-        <a href="https://github.com/mcv-s/folio">
-            GitHub
-        </a>
-        &nbsp;·&nbsp;
-        <a href="https://mcv-s.github.io/folio/privacy.html">
-            Privacy Policy
-        </a>
-        &nbsp;·&nbsp;
-        <a href="https://github.com/mcv-s/Folio/archive/refs/heads/main.zip">
-            Download
-        </a>
+
+
+
+
+
+
+    <div class="container">
+
+        <div class="card" >
+
+            <div class="title">
+                Preview
+            </div>
+            <img class="preview" src="Preview.png">
+
+            <description>
+                Folio is a browser extension that replaces the new tab page with a customizable interface including
+                widgets, AI search shortcuts, background customization, and optional integrations.
+            </description>
+
+            <br><br>
+            <a class="button secondary" href="https://mcv-s.github.io/folio/newtab.html" target="_blank">
+                Try it out
+            </a>
+            <p></p>
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+        <div class="card">
+
+            <div class="title">
+                Features
+            </div>
+
+
+            <div class="features">
+
+                <div class="feature">
+                    <h3>AI Search</h3>
+                    <p>Search with your preferred AI provider instantly.</p>
+                </div>
+
+
+                <div class="feature">
+                    <h3>Widgets and Integrations</h3>
+                    <p>Optionally add tools like timers, notes, and integrations.</p>
+                </div>
+
+
+                <div class="feature">
+                    <h3>Backgrounds</h3>
+                    <p>Use custom or randomized backgrounds.</p>
+                </div>
+
+
+                <div class="feature">
+                    <h3>Simple</h3>
+                    <p>A useful new tab without unnecessary clutter.</p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        
+        <div class="card">
+            <div class="title">
+                Folio 2.0
+            </div>
+
+            <ul>
+                <li>Improved widget development system</li>
+                <li>Sticky Note Widget</li>
+                <li>Pomodoro Timer Widget</li>
+                <li>Generated widget settings</li>
+                <li>Centered widget scaling</li>
+                <li>Grid snapping</li>
+                <li>Bug fixes and improvements</li>
+            </ul>
+
+        </div>
+
+
+
+
+
+
+
+
+            <div class="card">
+
+            <div class="title">
+                FAQ
+            </div>
+
+
+            <div class="features">
+
+                <div class="feature">
+                    <h3>Is Folio Free?</h3>
+                    <p2>Yes, Folio is completely free to use. All the features you see here will be free, forever.</p2>
+                </div>
+
+
+                <div class="feature">
+                    <h3>Why isn't Folio available on Web Stores?</h3>
+                    <p2>I don't have the resources to go through the review process for each store, so it's only an unpacked extension for now.</p2>
+                </div>
+
+
+                <div class="feature">
+                    <h3>Why did you make Folio?</h3>
+                    <p2>I got bored of clutter :)</p2>
+                </div>
+
+
+                <div class="feature">
+                    <h3>What makes Folio different?</h3>
+                    <p2>It's designed with simplicity and customization in mind. Everything is fully customizable - you can even use custom CSS!</p2>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="card" id="setup">
+
+            <div class="title">
+                Setup
+            </div>
+
+            <ol>
+
+                <li>
+                    Download the latest version of the extension from
+                    <a href="https://github.com/mcv-s/Folio/archive/refs/heads/main.zip">
+                        GitHub.
+                    </a>
+                </li>
+
+                <li>
+                    Unzip the extension.
+                </li>
+
+                <li>
+                    Go to your browser's extensions page.
+                </li>
+
+                <li>
+                    Enable Developer Mode if it is not already enabled.
+                    <br><br>
+
+                    <img width="308" height="123" alt="Enable Developer Mode"
+                        src="https://github.com/user-attachments/assets/767f98cd-f37e-45d5-9150-d7fd73e03e42">
+
+                </li>
+
+                <li>
+                    Select <b>Load Unpacked</b>.
+                    <br><br>
+
+                    <img width="357" height="59" alt="Load Unpacked"
+                        src="https://github.com/user-attachments/assets/76aefcd0-1b92-4b15-a7c2-3a8a6a1dd261">
+
+                </li>
+
+                <li>
+                    Select the unzipped Folio extension folder and you're ready to go!
+                </li>
+
+            </ol>
+
+            Yes - it's a bit sketchy to load unpacked extensions, but this is the only way to use Folio until it's
+            published on the Chrome Web Store.
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
 
-    <div style="margin-top:8px; opacity:.6;">
-        Built with simplicity in mind.
-    </div>
 
-</footer>
+
+
+    <footer class="footer">
+
+        <div>
+            Folio · Ultimate New Tab
+        </div>
+
+        <div style="margin-top:8px;">
+            <a href="https://github.com/mcv-s/folio">
+                GitHub
+            </a>
+            &nbsp;·&nbsp;
+            <a href="https://mcv-s.github.io/folio/privacy.html">
+                Privacy Policy
+            </a>
+            &nbsp;·&nbsp;
+            <a href="https://github.com/mcv-s/Folio/archive/refs/heads/main.zip">
+                Download
+            </a>
+        </div>
+
+        <div style="margin-top:8px; opacity:.6;">
+            Built with simplicity in mind.
+        </div>
+
+    </footer>
 
 
 
@@ -458,4 +585,5 @@ Yes - it's a bit sketchy to load unpacked extensions, but this is the only way t
 
 
 </body>
+
 </html>

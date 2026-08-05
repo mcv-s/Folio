@@ -534,9 +534,11 @@ if (isTab) {
   document.getElementById("popupBanner")?.remove();
 
   // Apply styles for tab mode
-  document.body.style.width = "min(100%, 500px)";
+  document.body.style.width = "min(100%, 550px)";
   document.body.style.padding = "32px";
   document.body.style.margin = "0 auto";
+
+  document.body.style.zoom = "1.1";
 
 
 } else {

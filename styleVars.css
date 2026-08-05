@@ -1,0 +1,23 @@
+:root {
+  --bg: #1e1e1e;
+  --card: #2a2a2a;
+  --text: #ffffff;
+  --muted: #a0a0a0;
+  --muted2: #cfcfcf;
+  --accent: #4f9cff;
+  --border: rgba(255,255,255,.08);
+  --button-hover-1: #555;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f6f6f6;
+    --card: #ffffff;
+    --text: #111111;
+    --muted: #666;
+    --muted2: #2e2d2d;
+    --accent: #4f9cff;
+    --border: rgba(0,0,0,.08);
+    --button-hover-1: #e0e0e0;
+  }
+}
