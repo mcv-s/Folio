@@ -390,6 +390,38 @@ function createSettingInput(setting, widgetState) {
   const wrapper = document.createElement("div");
   wrapper.className = "row";
 
+  if (setting.type === "link") {
+    const link = document.createElement("a");
+
+    link.textContent = setting.label;
+    link.href = setting.value;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+
+    link.style.color = "var(--accent)";
+    link.style.textDecoration = "underline";
+    link.style.cursor = "pointer";
+
+    wrapper.appendChild(link);
+
+    return wrapper;
+  }
+
+  if (setting.type === "h4") {
+    const text = document.createElement("h4");
+
+    text.textContent = setting.label;
+
+    text.style.margin = "8px 0";
+    text.style.fontSize = "13px";
+    text.style.fontWeight = "600";
+
+    wrapper.appendChild(text);
+
+    return wrapper;
+  }
+
+
   const label = document.createElement("span");
   label.textContent = setting.label;
   wrapper.appendChild(label);

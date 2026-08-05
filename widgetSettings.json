@@ -33,8 +33,15 @@
           "key": "icsUrl",
           "label": "",
           "type": "text",
-          "placeholder": "Todoist ics link",
+          "placeholder": "Todoist iCal link",
           "default": ""
+        },
+        {
+          "key": "none",
+          "label": "Get my iCal link",
+          "type": "link",
+          "value": "https://app.todoist.com/app/settings/integrations/installed",
+          "default": false
         }
       ]
     },

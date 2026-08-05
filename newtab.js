@@ -15,6 +15,70 @@ console.log("chrome.history:", !!chrome?.history);
 
 
 
+
+
+
+
+
+
+
+/* =========================
+   FOLIO DEFAULT CONFIG
+   ========================= */
+
+const FOLIO_DEFAULTS = {
+  // Background
+  bgEnabled: true,
+  bgImage: "theme_bg.png",
+  bgBlur: 15,
+  bgRandom: false,
+
+  // Search
+  showSearchBar: true,
+
+  // AI
+  selectedAI: "chatgpt",
+
+  // History
+  showHistory: false,
+
+  // Theme
+  systemTheme: true
+};
+
+
+/* Apply defaults only when missing */
+function applyFolioDefaults() {
+  storage.get(null, (data) => {
+    const missing = {};
+
+    for (const key in FOLIO_DEFAULTS) {
+      if (data[key] === undefined) {
+        missing[key] = FOLIO_DEFAULTS[key];
+      }
+    }
+
+    if (Object.keys(missing).length > 0) {
+      console.log("Folio: Applying default settings", missing);
+
+      storage.set(missing, () => {
+        location.reload();
+      });
+    }
+  });
+}
+
+applyFolioDefaults();
+
+
+
+
+
+
+
+
+
+
 function setFavicon() {
   const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
@@ -108,6 +172,12 @@ function draw() {
 
 
 draw();
+
+
+
+
+
+
 
 /* ===== UI ===== */
 const input = document.getElementById("aiInput");
@@ -382,12 +452,6 @@ storage.get(
       .catch((e) => console.warn("Random cache failed:", e));
   }
 );
-
-
-
-
-
-
 /* Redirect if the user wants */
 
 storage.get(
@@ -398,18 +462,6 @@ storage.get(
     }
   }
 );
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
