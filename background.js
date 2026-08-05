@@ -135,12 +135,28 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
 
 
 
-chrome.commands.onCommand.addListener((command) => {
-  if (command === "open-folio-search") {
-    chrome.tabs.create({
-      url: chrome.runtime.getURL("newtab.html")
-    });
-  }
+
+
+
+chrome.commands.onCommand.addListener(async (command) => {
+
+    if (command === "open-folio-search") {
+
+        const [tab] = await chrome.tabs.query({
+            active: true,
+            currentWindow: true
+        });
+
+
+        if (!tab?.id) return;
+
+
+        chrome.tabs.sendMessage(tab.id, {
+            action: "open-folio-search"
+        });
+
+    }
+
 });
 
 

@@ -3,24 +3,24 @@
   "name": "Folio - Ultimate New Tab",
   "version": "1.0",
   "description": "A custom new tab. Supports custom CSS, widgets + integrations, random & custom background images, and an AI search bar.",
-
   "chrome_url_overrides": {
     "newtab": "newtab.html"
   },
-
-  "permissions": ["storage", "contextMenus", "activeTab", "history", "tabs"],
-
-
+  "permissions": [
+    "storage",
+    "contextMenus",
+    "activeTab",
+    "history",
+    "tabs"
+  ],
   "host_permissions": [
     "https://*/*"
   ],
-
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self';"
   },
-
   "background": {
-  "service_worker": "background.js"
+    "service_worker": "background.js"
   },
   "action": {
     "default_icon": {
@@ -29,7 +29,6 @@
       "32": "icons/Folio-Icon-A-Stylistic.png",
       "48": "icons/Folio-Icon-A-Stylistic.png"
     },
-
     "theme_icons": [
       {
         "light": "icons/Folio-Icon-Light.png",
@@ -52,20 +51,41 @@
         "size": 48
       }
     ],
-
     "default_popup": "popup.html"
   },
   "icons": {
-  "16": "icons/Folio-Icon-Main.png",
-  "48": "icons/Folio-Icon-Main.png",
-  "128": "icons/Folio-Icon-Main.png"
+    "16": "icons/Folio-Icon-Main.png",
+    "48": "icons/Folio-Icon-Main.png",
+    "128": "icons/Folio-Icon-Main.png"
   },
   "commands": {
-  "open-folio-search": {
-    "suggested_key": {
-      "default": "Ctrl+Space"
-    },
-    "description": "Open Folio search"
-  }
-}
+    "open-folio-search": {
+      "suggested_key": {
+        "default": "Ctrl+Space"
+      },
+      "description": "Open Folio search"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "bar.html",
+        "bar.css",
+        "bar.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
 }
