@@ -11,22 +11,27 @@
     --card: #2a2a2a;
     --text: #ffffff;
     --muted: #a0a0a0;
+    --muted2: #cfcfcf;
     --accent: #4f9cff;
   }
+
 
   body.light {
     --bg: #f6f6f6;
     --card: #ffffff;
     --text: #111111;
     --muted: #666;
+    --muted2: #2e2d2d;
     --accent: #2563eb;
   }
 
   body {
-    margin: 0;
+    margin: 0 auto;
+    min-height: 100vh;
     font-family: system-ui, sans-serif;
-    width: 320px;
-    padding: 12px;
+    width: min(100%, 325px);
+    max-width: 100%;
+    padding: 16px;
     background: var(--bg);
     color: var(--text);
     transition: 0.2s ease;
@@ -39,11 +44,30 @@
     scrollbar-color: rgba(0,0,0,0.15) transparent;
   }
 
+
+
+
+  hr {
+    border: none;
+    height: 1px;
+    background: rgba(255,255,255,0.12);
+    margin: 12px 0;
+  }
+
+  body.light hr {
+    background: rgba(0,0,0,0.12);
+  }
+
+
+
+
+
   .card {
     background: var(--card);
     border-radius: 12px;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 14px;
+    margin-bottom: 12px;
+    width: 100%;
   }
 
   .title {
@@ -51,6 +75,13 @@
     font-weight: 700;
     margin-bottom: 8px;
     color: var(--muted);
+  }
+
+    .title-2 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--muted2);
   }
 
   textarea {
@@ -186,6 +217,23 @@
     display: none;
   }
 
+
+
+
+
+
+.card,
+details {
+  width: 100%;
+  margin: 0 auto 12px auto;
+  box-sizing: border-box;
+}
+
+
+
+
+
+
   /* NEW: Upload button styling */
 .upload-btn {
   display: inline-flex;
@@ -234,6 +282,55 @@ a:active {
 
 
 
+.chevron {
+  width: 10px;
+  height: 10px;
+  transition: transform 0.2s ease;
+  opacity: 0.7;
+}
+
+details[open] .chevron {
+  transform: rotate(180deg);
+}
+
+
+
+
+
+
+
+.details-content {
+  overflow: hidden;
+  animation: detailsClose 0.2s ease forwards;
+}
+
+details[open] .details-content {
+  animation: detailsOpen 0.25s ease forwards;
+}
+
+@keyframes detailsOpen {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes detailsClose {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+
 
 
 
@@ -246,6 +343,23 @@ a:active {
 <body>
 
 
+
+
+<div id="popupBanner" class="card" style="display:flex;align-items:center;justify-content:space-between;">
+  <div>
+    <div class="title" style="margin-bottom:2px;">Settings</div>
+    <div class="hint" style="margin:0;">Open this page in a full browser tab.</div>
+  </div>
+
+  <button id="openInTab" style="
+    width:auto;
+    margin:0;
+    padding:8px 14px;
+    white-space:nowrap;
+  ">
+    Open ↗
+  </button>
+</div>
 
 
 
@@ -281,7 +395,7 @@ a:active {
   </div>
   <div class="info">Random images from https://picsum.photos/1920/1080</div>
   
-  <br>
+  <hr>
 
   <div style="margin-top:10px;">
     <div class="title">Blur Strength</div>
@@ -378,26 +492,54 @@ a:active {
 
 
 
-<!-- INTEGRATIONS -->
+<!-- Addons -->
 <details>
-  <summary>Integrations & Widgets</summary>
-  <br>
-  <div class="title">Widget Settings</div>
-  <div class="row" style="margin-top:12px;">
-    <span>Snap widgets to grid</span>
-    <label class="switch">
-      <input type="checkbox" id="widgetGridSnapToggle">
-      <span class="slider"></span>
-    </label>
+
+
+  <summary>
+
+    <span>Addons</span>
+    <svg class="chevron" viewBox="0 0 16 16">
+    <path d="M4 6L8 10L12 6"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"/>
+  </svg>
+  
+</summary>
+
+  <div class="details-content">
+
+
+    <br>
+    <div class="title-2">Widget Settings</div>
+    
+    <div class="row" style="margin-top:12px;">
+      <span>Snap widgets to grid</span>
+      <label class="switch">
+        <input type="checkbox" id="widgetGridSnapToggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    
+
+    <br>
+
+    <div class="title-2">Addons</div>
+    <br>
+    
+
+    <div id="widgetSettingsContainer" style="margin-top:12px;"></div>
+
+    <br>
+    <div class="info" style="margin-top:12px;">Folio does not collect your data.</div>
+    <div class="info">By using Folio, you agree to our privacy policy. <a href="https://mcv-s.github.io/folio/privacy.html" target="_blank" rel="noopener noreferrer">Learn more.</a></div>
+
   </div>
 
-  <br>
-
-  <div id="widgetSettingsContainer" style="margin-top:12px;"></div>
-
-  <br>
-  <div class="info" style="margin-top:12px;">Folio does not collect your data.</div>
-  <div class="info">By using Folio, you agree to our privacy policy. <a href="https://mcv-s.github.io/folio/privacy.html" target="_blank" rel="noopener noreferrer">Learn more.</a></div>
 </details>
 
 
@@ -407,17 +549,24 @@ a:active {
 
 
 
-
-
-
-
-
-
-
-
-<!-- ADVANCED (CSS ONLY NOW) -->
+<!-- Preferences -->
 <details>
-  <summary>Advanced</summary>
+    <summary>
+    
+    <span>Preferences</span>
+    <svg class="chevron" viewBox="0 0 16 16">
+    <path d="M4 6L8 10L12 6"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"/>
+  </svg>
+  
+  </summary> 
+
+  <div class="details-content">
+
 
   <div style="margin-top:12px;">
     <div class="title">24-Hour Time</div>
@@ -429,23 +578,52 @@ a:active {
           <span class="slider"></span>
         </label>
       </div>
-<br>
   </div>
 
+</div>
+</details>
 
 
 
 
-  <div style="margin-top:12px;">
-    <div class="title">Custom CSS</div>
 
-    <textarea id="cssBox" placeholder="Write custom CSS for your new tab..." style="min-height: 180px;"></textarea>
 
-    <button id="saveCss">Save CSS</button>
 
-    <div class="hint">Applied automatically on new tab</div>
-  </div>
 
+
+
+<!-- ADVANCED -->
+<details>
+    <summary>
+    
+    <span>Advanced</span>
+    <svg class="chevron" viewBox="0 0 16 16">
+    <path d="M4 6L8 10L12 6"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"/>
+  </svg>
+  
+  </summary> 
+
+  <div class="details-content">
+
+
+
+    <div style="margin-top:12px;">
+      <div class="title">Custom CSS</div>
+
+      <textarea id="cssBox" placeholder="Write custom CSS for your new tab..." style="min-height: 180px;"></textarea>
+
+      <button id="saveCss">Save CSS</button>
+
+      <div class="hint">Applied automatically on new tab</div>
+    </div>
+
+
+</div>
 </details>
 
 
@@ -462,13 +640,15 @@ a:active {
 
 
 
-
+<br><hr><br>
 
 <div class="hint">Changes take place upon refresh or new tab visit.</div>
 
 <div class="hint">By using Folio, or its integrations, you take on full responsibility for any data shared with Folio or its partners.</div>
 
 <br><a href="https://mcv-s.github.io/folio/privacy.html" target="_blank" rel="noopener noreferrer">Read our privacy policy</a>
+
+<br><br>
 
 <script src="popup.js"></script>
 

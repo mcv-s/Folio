@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Folio</title>
+
+<style>
+
+:root {
+    --bg:#212121;
+    --card:rgba(33,33,33,.55);
+    --text:rgba(255,255,255,.92);
+    --muted:rgba(255,255,255,.55);
+    --border:rgba(255,255,255,.08);
+    --accent:#4f9cff;
+}
+
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg:#f0f0f0;
+        --card:rgba(255,255,255,.65);
+        --text:rgba(0,0,0,.85);
+        --muted:rgba(0,0,0,.55);
+        --border:rgba(0,0,0,.08);
+    }
+}
+
+
+* {
+    box-sizing:border-box;
+}
+
+
+body {
+    margin:0;
+    min-height:100vh;
+    background:var(--bg);
+    color:var(--text);
+    font-family:system-ui,-apple-system,sans-serif;
+}
+
+
+.hero {
+    height:100vh;
+    background:
+        linear-gradient(
+            rgba(0, 0, 0, 0.247),
+            var(--bg)
+        ),
+        url("theme_bg.png");
+
+    background-size:cover;
+    background-position:center;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+}
+
+
+@media (prefers-color-scheme: light) {
+    .hero {
+        background:
+        linear-gradient(
+            rgba(255,255,255,.45),
+            rgba(255,255,255,.7)
+        ),
+        url("theme_bg.png");
+    }
+}
+
+
+.hero h1 {
+    font-size:42px;
+    margin:0;
+}
+
+
+.hero p {
+    margin:8px;
+    color:var(--muted);
+}
+
+
+.actions {
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+
+.button {
+    padding:9px 16px;
+    border-radius:999px;
+    text-decoration:none;
+    color:white;
+    background:var(--accent);
+    font-size:14px;
+}
+
+
+.secondary {
+    background:var(--card);
+    border:1px solid var(--border);
+    backdrop-filter:blur(18px);
+}
+
+
+.container {
+    width:min(900px,calc(100% - 32px));
+    margin:24px auto;
+}
+
+
+.card {
+    background:var(--card);
+    backdrop-filter:blur(18px) saturate(120%);
+    -webkit-backdrop-filter:blur(18px) saturate(120%);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:18px;
+    margin-bottom:14px;
+}
+
+
+.title {
+    font-size:13px;
+    color:var(--muted);
+    font-weight:700;
+    margin-bottom:12px;
+}
+
+
+.features {
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:10px;
+}
+
+
+.feature {
+    background:rgba(255,255,255,.04);
+    border-radius:12px;
+    padding:14px;
+}
+
+
+.feature h3 {
+    margin:0 0 6px;
+    font-size:14px;
+}
+
+
+.feature p {
+    margin:0;
+    font-size:13px;
+    color:var(--muted);
+}
+
+
+img.preview {
+    width:100%;
+    border-radius:14px;
+    margin-top:14px;
+}
+
+
+li {
+    margin:6px 0;
+    color:var(--muted);
+}
+
+
+a {
+    color:var(--accent);
+}
+
+
+
+
+
+.footer {
+    width:min(900px,calc(100% - 32px));
+    margin:40px auto 24px;
+    padding:16px;
+    text-align:center;
+    color:var(--muted);
+    font-size:12px;
+}
+
+.footer a {
+    color:var(--muted);
+    text-decoration:none;
+    transition:.15s ease;
+}
+
+.footer a:hover {
+    color:var(--accent);
+}
+
+
+
+
+
+
+
+</style>
+
+</head>
+
+<body>
+
+
+<div class="hero">
+
+<h1>Folio: Ultimate New Tab</h1>
+
+<p>
+A simple, customizable Chromium new tab experience.
+</p><br>
+
+<p>
+Built with simplicity in mind.
+</p>
+
+
+<div class="actions">
+
+<a class="button"
+href="https://github.com/mcv-s/folio">
+GitHub
+</a>
+
+<a class="button secondary"
+href="https://mcv-s.github.io/folio/privacy.html">
+Privacy
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="container">
+
+
+<div class="card">
+
+<div class="title">
+Preview
+</div>
+
+<img class="preview"
+src="https://github.com/user-attachments/assets/be119471-21ca-4841-bd17-ef7886166a7e">
+
+</div>
+
+
+
+<div class="card">
+
+<div class="title">
+Features
+</div>
+
+
+<div class="features">
+
+<div class="feature">
+<h3>AI Search</h3>
+<p>Search with your preferred AI provider instantly.</p>
+</div>
+
+
+<div class="feature">
+<h3>Widgets and Integrations</h3>
+<p>Optionally add tools like timers, notes, and integrations.</p>
+</div>
+
+
+<div class="feature">
+<h3>Backgrounds</h3>
+<p>Use custom or randomized backgrounds.</p>
+</div>
+
+
+<div class="feature">
+<h3>Simple</h3>
+<p>A useful new tab without unnecessary clutter.</p>
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="card">
+<div class="title">
+Folio 2.0
+</div>
+
+<ul>
+<li>Improved widget development system</li>
+<li>Sticky Note Widget</li>
+<li>Pomodoro Timer Widget</li>
+<li>Generated widget settings</li>
+<li>Centered widget scaling</li>
+<li>Grid snapping</li>
+<li>Bug fixes and improvements</li>
+</ul>
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="card">
+
+<div class="title">
+Setup
+</div>
+
+<ol>
+
+<li>
+Download the latest version of the extension from
+<a href="https://github.com/mcv-s/Folio/archive/refs/heads/main.zip">
+GitHub
+</a>.
+</li>
+
+<li>
+Unzip the extension.
+</li>
+
+<li>
+Go to your browser's extensions page.
+</li>
+
+<li>
+Enable Developer Mode if it is not already enabled.
+<br><br>
+
+<img 
+    width="308"
+    height="123"
+    alt="Enable Developer Mode"
+    src="https://github.com/user-attachments/assets/767f98cd-f37e-45d5-9150-d7fd73e03e42">
+
+</li>
+
+<li>
+Select <b>Load Unpacked</b>.
+<br><br>
+
+<img
+    width="357"
+    height="59"
+    alt="Load Unpacked"
+    src="https://github.com/user-attachments/assets/76aefcd0-1b92-4b15-a7c2-3a8a6a1dd261">
+
+</li>
+
+<li>
+Select the unzipped Folio extension folder and you're ready to go!
+</li>
+
+</ol>
+
+Yes - it's a bit sketchy to load unpacked extensions, but this is the only way to use Folio until it is published on the Chrome Web Store.
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+<footer class="footer">
+
+    <div>
+        Folio · Ultimate New Tab
+    </div>
+
+    <div style="margin-top:8px;">
+        <a href="https://github.com/mcv-s/folio">
+            GitHub
+        </a>
+        &nbsp;·&nbsp;
+        <a href="https://mcv-s.github.io/folio/privacy.html">
+            Privacy Policy
+        </a>
+        &nbsp;·&nbsp;
+        <a href="https://github.com/mcv-s/Folio/archive/refs/heads/main.zip">
+            Download
+        </a>
+    </div>
+
+    <div style="margin-top:8px; opacity:.6;">
+        Built with simplicity in mind.
+    </div>
+
+</footer>
+
+
+
+
+
+
+</body>
+</html>

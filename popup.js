@@ -448,7 +448,8 @@ function renderWidgetSettings() {
       widgetSettingsContainer.innerHTML = "";
 
       widgets.forEach((widget) => {
-        widgetSettingsContainer.appendChild(document.createElement("br"));
+        // widgetSettingsContainer.appendChild(document.createElement("br"));
+        
 
         
         const section = document.createElement("div");
@@ -466,13 +467,57 @@ function renderWidgetSettings() {
           section.appendChild(row);
         });
 
+        
         widgetSettingsContainer.appendChild(section);
+        // widgetSettingsContainer.appendChild(document.createElement("br"));
+        widgetSettingsContainer.appendChild(document.createElement("hr"));
+        
       });
     });
   });
 }
 
 renderWidgetSettings();
+
+
+
+
+
+
+
+
+// Opened as a full browser tab?
+const isTab = new URLSearchParams(location.search).has("tab");
+
+if (isTab) {
+  document.getElementById("openInTab")?.remove();
+  document.getElementById("popupBanner")?.remove();
+
+  // Apply styles for tab mode
+  document.body.style.width = "min(100%, 500px)";
+  document.body.style.padding = "32px";
+  document.body.style.margin = "0 auto";
+
+
+} else {
+  document.getElementById("openInTab")?.addEventListener("click", () => {
+    chrome.tabs.create({
+      url: chrome.runtime.getURL("popup.html?tab=1")
+    });
+
+    window.close();
+  });
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

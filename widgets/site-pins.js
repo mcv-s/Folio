@@ -32,7 +32,7 @@ export async function init(sitePins) {
           !url.startsWith("http://") &&
           !url.startsWith("https://")
         ) {
-          url = "https://" + url;
+          url = "" + url;
         }
 
 
