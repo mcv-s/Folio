@@ -1,281 +1,281 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Folio: Settings</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Folio: Settings</title>
 
-<link rel="stylesheet" href="styleVars.css">
-<style>
+  <link rel="stylesheet" href="styleVars.css">
+  <style>
+    body {
+      margin: 0 auto;
+      min-height: 100vh;
+      font-family: system-ui, sans-serif;
+      width: min(100%, 325px);
+      max-width: 100%;
+      padding: 16px;
+      background: var(--bg);
+      color: var(--text);
+      transition: 0.2s ease;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+    }
 
-
-  body {
-    margin: 0 auto;
-    min-height: 100vh;
-    font-family: system-ui, sans-serif;
-    width: min(100%, 325px);
-    max-width: 100%;
-    padding: 16px;
-    background: var(--bg);
-    color: var(--text);
-    transition: 0.2s ease;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255,255,255,0.12) transparent;
-  }
-
-  body.light {
-    scrollbar-color: rgba(0,0,0,0.15) transparent;
-  }
+    body.light {
+      scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+    }
 
 
 
 
-  hr {
-    border: none;
-    height: 1px;
-    background: rgba(255,255,255,0.12);
-    margin: 12px 0;
-  }
+    hr {
+      border: none;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.12);
+      margin: 12px 0;
+    }
 
-  body.light hr {
-    background: rgba(0,0,0,0.12);
-  }
+    body.light hr {
+      background: rgba(0, 0, 0, 0.12);
+    }
 
 
 
 
 
-  .card {
-    background: var(--card);
-    border-radius: 12px;
-    padding: 14px;
-    margin-bottom: 12px;
-    width: 100%;
-  }
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
+      width: 100%;
+    }
 
-  .title {
-    font-size: 13px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    color: var(--muted);
-  }
+    .title {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--muted);
+    }
 
     .title-2 {
-    font-size: 15px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    color: var(--muted2);
-  }
-
-  textarea {
-    width: 100%;
-    height: 90px;
-    resize: none;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-    padding: 10px;
-    background: rgba(0,0,0,0.2);
-    color: var(--text);
-    font-size: 12px;
-    box-sizing: border-box;
-  }
-
-  button {
-    width: 100%;
-    margin-top: 8px;
-    padding: 8px;
-    border-radius: 10px;
-    border: none;
-    background: var(--accent);
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-  }
-
-  .hint {
-    font-size: 11px;
-    opacity: 0.7;
-    margin-top: 6px;
-  }
-
-  body::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  body::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  body::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,0.12);
-    border-radius: 10px;
-  }
-
-  body.light::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,0.15);
-  }
-
-  body::-webkit-scrollbar-thumb:hover {
-    background: rgba(255,255,255,0.2);
-  }
-
-  body.light::-webkit-scrollbar-thumb:hover {
-    background: rgba(0,0,0,0.25);
-  }
-
-
-  .info {
-    font-size: 10px;
-    opacity: 0.3;
-    margin-top: 6px;
-  }
-
-  .row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 12px;
-    margin: 6px 0;
-  }
-
-  .switch {
-    position: relative;
-    width: 38px;
-    height: 22px;
-  }
-
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    inset: 0;
-    background-color: #555;
-    transition: .2s;
-    border-radius: 999px;
-  }
-
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 16px;
-    width: 16px;
-    left: 3px;
-    top: 3px;
-    background-color: white;
-    transition: .2s;
-    border-radius: 50%;
-  }
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--muted2);
+    }
+
+    textarea {
+      width: 100%;
+      height: 90px;
+      resize: none;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.2);
+      color: var(--text);
+      font-size: 12px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 8px;
+      padding: 8px;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .hint {
+      font-size: 11px;
+      opacity: 0.7;
+      margin-top: 6px;
+    }
+
+    body::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    body::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    body::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+    }
+
+    body.light::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.15);
+    }
+
+    body::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    body.light::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+
+    .info {
+      font-size: 10px;
+      opacity: 0.3;
+      margin-top: 6px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      margin: 6px 0;
+    }
+
+    .switch {
+      position: relative;
+      width: 38px;
+      height: 22px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: #555;
+      transition: .2s;
+      border-radius: 999px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      top: 3px;
+      background-color: white;
+      transition: .2s;
+      border-radius: 50%;
+    }
 
-  input:checked + .slider {
-    background-color: var(--accent);
-  }
+    input:checked+.slider {
+      background-color: var(--accent);
+    }
 
-  input:checked + .slider:before {
-    transform: translateX(16px);
-  }
+    input:checked+.slider:before {
+      transform: translateX(16px);
+    }
 
-  /* Advanced dropdown */
-  details {
-    background: var(--card);
-    border-radius: 12px;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
+    /* Advanced dropdown */
+    details {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
 
-  summary {
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--accent);
-    list-style: none;
-  }
+    summary {
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      list-style: none;
+    }
 
-  summary::-webkit-details-marker {
-    display: none;
-  }
+    summary::-webkit-details-marker {
+      display: none;
+    }
 
 
 
 
 
 
-.card,
-details {
-  width: 100%;
-  margin: 0 auto 12px auto;
-  box-sizing: border-box;
-}
+    .card,
+    details {
+      width: 100%;
+      margin: 0 auto 12px auto;
+      box-sizing: border-box;
+    }
 
 
 
 
 
 
-  /* NEW: Upload button styling */
-.upload-btn {
-  display: inline-flex;
-  width: calc(100%); /* respects card padding visually */
-  margin: 0 auto 10px auto;
-  padding: 10px;
-  border-radius: 10px;
-  background: rgba(79, 156, 255, 0.15);
-  border: 1px solid rgba(79, 156, 255, 0.4);
-  color: var(--text);
-  font-size: 12px;
-  font-weight: 600;
-  text-align: center;
-  cursor: pointer;
-  justify-content: center;
-  align-items: center;
-  box-sizing: border-box;
-}
+    /* NEW: Upload button styling */
+    .upload-btn {
+      display: inline-flex;
+      width: calc(100%);
+      /* respects card padding visually */
+      margin: 0 auto 10px auto;
+      padding: 10px;
+      border-radius: 10px;
+      background: rgba(79, 156, 255, 0.15);
+      border: 1px solid rgba(79, 156, 255, 0.4);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+    }
 
-  .upload-btn input {
-    display: none;
-  }
+    .upload-btn input {
+      display: none;
+    }
 
-  .mini {
-    font-size: 11px;
-    opacity: 0.7;
-    margin-top: 6px;
-  }
+    .mini {
+      font-size: 11px;
+      opacity: 0.7;
+      margin-top: 6px;
+    }
 
 
-  .row:has(#enterToggle) {
-    display: none;
-  }
+    .row:has(#enterToggle) {
+      display: none;
+    }
 
 
 
 
 
-a,
-a:visited,
-a:hover,
-a:active {
-  color: inherit;
-}
+    a,
+    a:visited,
+    a:hover,
+    a:active {
+      color: inherit;
+    }
 
 
 
 
-.chevron {
-  width: 10px;
-  height: 10px;
-  transition: transform 0.2s ease;
-  opacity: 0.7;
-}
+    .chevron {
+      width: 10px;
+      height: 10px;
+      transition: transform 0.2s ease;
+      opacity: 0.7;
+    }
 
-details[open] .chevron {
-  transform: rotate(180deg);
-}
+    details[open] .chevron {
+      transform: rotate(180deg);
+    }
 
 
 
@@ -283,120 +283,110 @@ details[open] .chevron {
 
 
 
-.details-content {
-  overflow: hidden;
-  animation: detailsClose 0.2s ease forwards;
-}
+    .details-content {
+      overflow: hidden;
+      animation: detailsClose 0.2s ease forwards;
+    }
 
-details[open] .details-content {
-  animation: detailsOpen 0.25s ease forwards;
-}
+    details[open] .details-content {
+      animation: detailsOpen 0.25s ease forwards;
+    }
 
-@keyframes detailsOpen {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+    @keyframes detailsOpen {
+      from {
+        opacity: 0;
+        transform: translateY(-6px);
+      }
 
-@keyframes detailsClose {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-}
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
+    @keyframes detailsClose {
+      from {
+        opacity: 1;
+        transform: translateY(0);
+      }
 
-
-
-
-
-
-
-</style>
+      to {
+        opacity: 0;
+        transform: translateY(-6px);
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<h1>Folio Settings</h1>
-<hr>
-<br>
+  <h1>Folio Settings</h1>
+  <hr>
+  <br>
 
-<div id="popupBanner" class="card" style="display:flex;align-items:center;justify-content:space-between;">
-  <div>
-    <div class="title" style="margin-bottom:2px;">Settings</div>
-    <div class="hint" style="margin:0;">Open this page in a full browser tab.</div>
-  </div>
+  <div id="popupBanner" class="card" style="display:flex;align-items:center;justify-content:space-between;">
+    <div>
+      <div class="title" style="margin-bottom:2px;">Settings</div>
+      <div class="hint" style="margin:0;">Open this page in a full browser tab.</div>
+    </div>
 
-  <button id="openInTab" style="
+    <button id="openInTab" style="
     width:auto;
     margin:0;
     padding:8px 14px;
     white-space:nowrap;
   ">
-    Open ↗
-  </button>
-</div>
-
-
-
-<!-- BACKGROUND -->
-<div class="card">
-  <div class="title">Background</div>
-
-  <label class="upload-btn">
-    Upload Image
-    <input type="file" id="bgUpload" accept="image/*">
-  </label>
-
-
-
-
-  <br><br>
-  <div class="row">
-    <span>Enable Background Image</span>
-    <label class="switch">
-      <input type="checkbox" id="bgToggle">
-      <span class="slider"></span>
-    </label>
+      Open ↗
+    </button>
   </div>
 
 
 
-  <div class="row">
-    <span>Randomize Background Image?</span>
-    <label class="switch">
-      <input type="checkbox" id="toggleRandom">
-      <span class="slider"></span>
-    </label>
-  </div>
-  <div class="info">Random images from https://picsum.photos/1920/1080</div>
-  <hr>
-  <div class="title">Image Link</div>
-  
-  <div class="row" style="margin-top:12px;">
-    <span>Use Image Link</span>
-    <label class="switch">
-      <input type="checkbox" id="bgLinkToggle">
-      <span class="slider"></span>
-    </label>
-  </div>
+  <!-- BACKGROUND -->
+  <div class="card">
+    <div class="title">Background</div>
 
-  <div style="margin-top:10px;">
-    
-        <input
-      type="text"
-      id="bgLink"
-      placeholder="https://example.com/image.jpg"
-      style="
+    <label class="upload-btn">
+      Upload Image
+      <input type="file" id="bgUpload" accept="image/*">
+    </label>
+
+
+
+
+    <br><br>
+    <div class="row">
+      <span>Enable Background Image</span>
+      <label class="switch">
+        <input type="checkbox" id="bgToggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+
+
+    <div class="row">
+      <span>Randomize Background Image?</span>
+      <label class="switch">
+        <input type="checkbox" id="toggleRandom">
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="info">Random images from https://picsum.photos/1920/1080</div>
+    <hr>
+    <div class="title">Image Link</div>
+
+    <div class="row" style="margin-top:12px;">
+      <span>Use Image Link</span>
+      <label class="switch">
+        <input type="checkbox" id="bgLinkToggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div style="margin-top:10px;">
+
+      <input type="text" id="bgLink" placeholder="https://example.com/image.jpg" style="
         width: 100%;
         padding: 10px;
         border-radius: 10px;
@@ -406,14 +396,13 @@ details[open] .details-content {
         color: var(--text);
         font-size: 12px;
         box-sizing: border-box;
-      "
-    />
-    <div class="hint">Use a direct image URL for the background when enabled.</div>
-  </div>
-  
-  <hr>
+      " />
+      <div class="hint">Use a direct image URL for the background when enabled.</div>
+    </div>
 
-  <div style="margin-top:10px;"></div>
+    <hr>
+
+    <div style="margin-top:10px;"></div>
     <div class="title">Blur Strength</div>
 
     <input type="range" id="blurSlider" min="0" max="20" value="0" step="1" style="width:100%;">
@@ -423,76 +412,76 @@ details[open] .details-content {
 
 
 
-</div>
-
-<!-- BEHAVIOR -->
-<div class="card">
-  <div class="title">Behavior</div>
-
-  <div class="row">
-    <span>Enter to submit</span>
-    <label class="switch">
-      <input type="checkbox" id="enterToggle" checked>
-      <span class="slider"></span>
-    </label>
   </div>
 
-  <div class="row">
-    <span>Show AI Search Bar</span>
-    <label class="switch">
-      <input type="checkbox" id="searchBarToggle" checked>
-      <span class="slider"></span>
-    </label>
-  </div>
-
-  <div class="row">
-    <span>Show Site History</span>
-    <label class="switch">
-      <input type="checkbox" id="showHistory" unchecked>
-      <span class="slider"></span>
-    </label>
-  </div>
+  <!-- BEHAVIOR -->
+  <div class="card">
+    <div class="title">Behavior</div>
 
     <div class="row">
-    <span>Ctrl + Space AI launcher on sites</span>
-    <label class="switch">
-      <input type="checkbox" id="siteLauncher" checked>
-      <span class="slider"></span>
-    </label>
+      <span>Enter to submit</span>
+      <label class="switch">
+        <input type="checkbox" id="enterToggle" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="row">
+      <span>Show Site History</span>
+      <label class="switch">
+        <input type="checkbox" id="showHistory" unchecked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+
+    <div class="row">
+      <span>Show AI Search Bar</span>
+      <label class="switch">
+        <input type="checkbox" id="searchBarToggle" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+
+
+    <div class="row">
+      <span>Ctrl + Space AI launcher on sites</span>
+      <label class="switch">
+        <input type="checkbox" id="siteLauncher" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+
+
+
+
   </div>
 
 
 
 
-</div>
 
 
 
 
+  <!-- REDIRECT -->
+  <div class="card">
+    <div class="title">Redirect</div>
 
+    <div class="row">
+      <span>Enable Redirect on New Tab</span>
+      <label class="switch">
+        <input type="checkbox" id="redirectToggle">
+        <span class="slider"></span>
+      </label>
+    </div>
 
+    <div style="margin-top:10px;">
+      <div class="title">Redirect URL</div>
 
-
-<!-- REDIRECT -->
-<div class="card">
-  <div class="title">Redirect</div>
-
-  <div class="row">
-    <span>Enable Redirect on New Tab</span>
-    <label class="switch">
-      <input type="checkbox" id="redirectToggle">
-      <span class="slider"></span>
-    </label>
-  </div>
-
-  <div style="margin-top:10px;">
-    <div class="title">Redirect URL</div>
-
-    <input
-      type="text"
-      id="redirectUrl"
-      placeholder="https://example.com"
-      style="
+      <input type="text" id="redirectUrl" placeholder="https://example.com" style="
         width: 100%;
         padding: 10px;
         border-radius: 10px;
@@ -502,69 +491,12 @@ details[open] .details-content {
         color: var(--text);
         font-size: 12px;
         box-sizing: border-box;
-      "
-    />
+      " />
 
-    <div class="hint">Opens this page immediately on new tab</div>
-  </div>
-</div>
-
-
-
-
-
-
-
-
-<!-- Addons -->
-<details>
-
-
-  <summary>
-
-    <span>Addons</span>
-    <svg class="chevron" viewBox="0 0 16 16">
-    <path d="M4 6L8 10L12 6"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"/>
-  </svg>
-  
-</summary>
-
-  <div class="details-content">
-
-
-    <br>
-    <div class="title-2">Widget Settings</div>
-    
-    <div class="row" style="margin-top:12px;">
-      <span>Snap widgets to grid</span>
-      <label class="switch">
-        <input type="checkbox" id="widgetGridSnapToggle">
-        <span class="slider"></span>
-      </label>
+      <div class="hint">Opens this page immediately on new tab</div>
     </div>
-
-    
-
-    <br>
-
-    <div class="title-2">Addons</div>
-    <br>
-    
-
-    <div id="widgetSettingsContainer" style="margin-top:12px;"></div>
-
-    <br>
-    <div class="info" style="margin-top:12px;">Folio does not collect your data.</div>
-    <div class="info">By using Folio, you agree to our privacy policy. <a href="https://mcv-s.github.io/folio/privacy.html" target="_blank" rel="noopener noreferrer">Learn more.</a></div>
-
   </div>
 
-</details>
 
 
 
@@ -572,83 +504,53 @@ details[open] .details-content {
 
 
 
+  <!-- Addons -->
+  <details>
 
-<!-- Preferences -->
-<details>
+
     <summary>
-    
-    <span>Preferences</span>
-    <svg class="chevron" viewBox="0 0 16 16">
-    <path d="M4 6L8 10L12 6"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"/>
-  </svg>
-  
-  </summary> 
 
-  <div class="details-content">
+      <span>Addons</span>
+      <svg class="chevron" viewBox="0 0 16 16">
+        <path d="M4 6L8 10L12 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+
+    </summary>
+
+    <div class="details-content">
 
 
-  <div style="margin-top:12px;">
-    <div class="title">24-Hour Time</div>
+      <br>
+      <div class="title-2">Widget Settings</div>
 
-      <div class="row">
-        <span>Enable 24-Hour Time</span>
+      <div class="row" style="margin-top:12px;">
+        <span>Snap widgets to grid</span>
         <label class="switch">
-          <input type="checkbox" id="_24hourTimeToggle">
+          <input type="checkbox" id="widgetGridSnapToggle">
           <span class="slider"></span>
         </label>
       </div>
-  </div>
-
-</div>
-</details>
 
 
 
+      <br>
+
+      <div class="title-2">Addons</div>
+      <br>
 
 
+      <div id="widgetSettingsContainer" style="margin-top:12px;"></div>
 
+      <br>
+      <div class="info" style="margin-top:12px;">Folio does not collect your data.</div>
+      <div class="info">By using Folio, you agree to our privacy policy. <a
+          href="https://mcv-s.github.io/folio/privacy.html" target="_blank" rel="noopener noreferrer">Learn more.</a>
+      </div>
 
-
-
-
-<!-- ADVANCED -->
-<details>
-    <summary>
-    
-    <span>Advanced</span>
-    <svg class="chevron" viewBox="0 0 16 16">
-    <path d="M4 6L8 10L12 6"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"/>
-  </svg>
-  
-  </summary> 
-
-  <div class="details-content">
-
-
-
-    <div style="margin-top:12px;">
-      <div class="title">Custom CSS</div>
-
-      <textarea id="cssBox" placeholder="Write custom CSS for your new tab..." style="min-height: 180px;"></textarea>
-
-      <button id="saveCss">Save CSS</button>
-
-      <div class="hint">Applied automatically on new tab</div>
     </div>
 
-
-</div>
-</details>
+  </details>
 
 
 
@@ -657,6 +559,35 @@ details[open] .details-content {
 
 
 
+  <!-- Preferences -->
+  <details>
+    <summary>
+
+      <span>Preferences</span>
+      <svg class="chevron" viewBox="0 0 16 16">
+        <path d="M4 6L8 10L12 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+
+    </summary>
+
+    <div class="details-content">
+
+
+      <div style="margin-top:12px;">
+        <div class="title">24-Hour Time</div>
+
+        <div class="row">
+          <span>Enable 24-Hour Time</span>
+          <label class="switch">
+            <input type="checkbox" id="_24hourTimeToggle">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
+    </div>
+  </details>
 
 
 
@@ -664,18 +595,69 @@ details[open] .details-content {
 
 
 
-<br><hr><br>
 
-<div class="hint">Changes take place upon refresh or new tab visit.</div>
 
-<div class="hint">By using Folio, or its integrations, you take on full responsibility for any data shared with Folio or its partners.</div>
 
-<br><a href="https://mcv-s.github.io/folio/privacy.html" target="_blank" rel="noopener noreferrer">Read our privacy policy</a>
+  <!-- ADVANCED -->
+  <details>
+    <summary>
 
-<br><br>
+      <span>Advanced</span>
+      <svg class="chevron" viewBox="0 0 16 16">
+        <path d="M4 6L8 10L12 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
 
-<script src="storage.js"></script>
-<script src="popup.js"></script>
+    </summary>
+
+    <div class="details-content">
+
+
+
+      <div style="margin-top:12px;">
+        <div class="title">Custom CSS</div>
+
+        <textarea id="cssBox" placeholder="Write custom CSS for your new tab..." style="min-height: 180px;"></textarea>
+
+        <button id="saveCss">Save CSS</button>
+
+        <div class="hint">Applied automatically on new tab</div>
+      </div>
+
+
+    </div>
+  </details>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <br>
+  <hr><br>
+
+  <div class="hint">Changes take place upon refresh or new tab visit.</div>
+
+  <div class="hint">By using Folio, or its integrations, you take on full responsibility for any data shared with Folio
+    or its partners.</div>
+
+  <br><a href="https://mcv-s.github.io/folio/privacy.html" target="_blank" rel="noopener noreferrer">Read our privacy
+    policy</a>
+
+  <br><br>
+
+  <script src="storage.js"></script>
+  <script src="popup.js"></script>
 
 </body>
+
 </html>
