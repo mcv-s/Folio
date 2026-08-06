@@ -87,6 +87,110 @@
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.search-bar {
+    position: relative;
+}
+
+
+#ghostText {
+    position: absolute;
+
+    /* Match the textarea's position inside .search-bar */
+    left: 18px;
+    right: 50px;
+    /* Leave room for the send button */
+    top: 16px;
+
+    padding: 6px 0;
+    margin: 0;
+
+    font: inherit;
+    font-size: 15px;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    word-break: break-word;
+
+    color: rgba(255, 255, 255, .28);
+
+    pointer-events: none;
+    user-select: none;
+    overflow: hidden;
+}
+
+#ghostText .typed {
+    visibility: hidden;
+}
+
+
+.search-bar {
+    position: relative;
+}
+
+#ghostText {
+    position: absolute;
+
+    left: 18px;
+    right: 50px;
+
+    top: 0;
+    bottom: 0;
+
+    padding-top: 19px;
+    /* tweak this */
+    padding-bottom: 10px;
+    padding-left: 0;
+    padding-right: 0;
+
+    font: inherit;
+    font-size: 15px;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    word-break: break-word;
+
+    color: rgba(255, 255, 255, .28);
+
+    pointer-events: none;
+    user-select: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Light mode */
 @media (prefers-color-scheme: light) {
     .search-bar {
@@ -113,5 +217,9 @@
 
     .send:hover {
         background: rgba(0, 0, 0, 0.06);
+    }
+
+    #ghostText {
+        color: rgba(0, 0, 0, .28);
     }
 }

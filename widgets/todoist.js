@@ -188,7 +188,6 @@ export async function init(todoist) {
             border-bottom:1px solid rgba(255,255,255,0.08);
           ">
             <a href="${t.url || '#'}"
-               target="_blank"
                style="
                 color:inherit;
                 text-decoration:none;
