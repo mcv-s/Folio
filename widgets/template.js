@@ -32,7 +32,7 @@ export async function init(template) {
   //   return;
 
 
-  
+
   const box = createWidget(
     "template-widget",
     "Template widget"

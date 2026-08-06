@@ -184,31 +184,31 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
 
 chrome.commands.onCommand.addListener(async (command) => {
 
-    if (command === "open-folio-search") {
+  if (command === "open-folio-search") {
 
-        storage.get(SITELAUNCHER_KEY, async (data) => {
+    storage.get(SITELAUNCHER_KEY, async (data) => {
 
-            const enabled = data[SITELAUNCHER_KEY] ?? true;
+      const enabled = data[SITELAUNCHER_KEY] ?? true;
 
-            if (!enabled) return;
-
-
-            const [tab] = await chrome.tabs.query({
-                active: true,
-                currentWindow: true
-            });
+      if (!enabled) return;
 
 
-            if (!tab?.id) return;
+      const [tab] = await chrome.tabs.query({
+        active: true,
+        currentWindow: true
+      });
 
 
-            chrome.tabs.sendMessage(tab.id, {
-                action: "open-folio-search"
-            });
+      if (!tab?.id) return;
 
-        });
 
-    }
+      chrome.tabs.sendMessage(tab.id, {
+        action: "open-folio-search"
+      });
+
+    });
+
+  }
 
 });
 

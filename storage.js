@@ -88,8 +88,61 @@
     }
   }
 
+
+
+  const watchers = {};
+
+  function watch(key, callback) {
+
+    if (!watchers[key]) {
+      watchers[key] = [];
+    }
+
+    watchers[key].push(callback);
+
+
+    // Chrome extension mode
+    if (chromeStorage && !watch.watchRegistered) {
+
+      chrome.storage.onChanged.addListener((changes, area) => {
+
+        if (area !== "local")
+          return;
+
+
+        Object.keys(changes).forEach((changedKey) => {
+
+          if (!watchers[changedKey])
+            return;
+
+
+          const value = changes[changedKey].newValue;
+
+          watchers[changedKey].forEach(fn => {
+            fn(value);
+          });
+
+        });
+
+      });
+
+      watch.watchRegistered = true;
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
   window.folioStorage = {
     get,
-    set
+    set,
+    watch
   };
 }());

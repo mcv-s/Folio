@@ -39,8 +39,10 @@
 
 
         :root {
-            --hero-dark-tint: 0.6;  /* Dark mode image darkness */
-            --hero-light-tint: 0; /* Light mode image darkness */
+            --hero-dark-tint: 0.6;
+            /* Dark mode image darkness */
+            --hero-light-tint: 0;
+            /* Light mode image darkness */
         }
 
         html {
@@ -56,87 +58,81 @@
         }
 
 
-    .hero {
-        height: 100vh;
+        .hero {
+            height: 100vh;
 
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
 
-        text-align: center;
+            text-align: center;
 
-        position: relative;
-        overflow: hidden;
-    }
-
-
-    
-.hero::before {
-    content: "";
-    position: absolute;
-    inset: -20px;
-
-    background:
-        linear-gradient(
-            rgba(0,0,0,var(--hero-dark-tint)),
-            rgba(0,0,0,var(--hero-dark-tint))
-        ),
-        url("theme_bg.png");
-
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-
-    filter: blur(8px);
-    transform: scale(1.05);
-
-    z-index: 0;
-}
+            position: relative;
+            overflow: hidden;
+        }
 
 
-.hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
 
-    background: linear-gradient(
-        transparent 55%,
-        var(--bg) 100%
-    );
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: -20px;
 
-    z-index: 1;
-}
+            background:
+                linear-gradient(rgba(0, 0, 0, var(--hero-dark-tint)),
+                    rgba(0, 0, 0, var(--hero-dark-tint))),
+                url("theme_bg.png");
 
-
-.hero > * {
-    position: relative;
-    z-index: 2;
-}
-
-
-@media (prefers-color-scheme: light) {
-
-    .hero::before {
-        background:
-            linear-gradient(
-                rgba(0,0,0,var(--hero-light-tint)),
-                rgba(0,0,0,var(--hero-light-tint))
-            ),
-            url("theme_bg.png");
             background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
+            background-position: center;
+            background-repeat: no-repeat;
 
-}
+            filter: blur(8px);
+            transform: scale(1.05);
+
+            z-index: 0;
+        }
+
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+
+            background: linear-gradient(transparent 55%,
+                    var(--bg) 100%);
+
+            z-index: 1;
+        }
+
+
+        .hero>* {
+            position: relative;
+            z-index: 2;
+        }
+
+
+        @media (prefers-color-scheme: light) {
+
+            .hero::before {
+                background:
+                    linear-gradient(rgba(0, 0, 0, var(--hero-light-tint)),
+                        rgba(0, 0, 0, var(--hero-light-tint))),
+                    url("theme_bg.png");
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+
+        }
 
 
 
 
 
 
-    
+
 
         .hero {
             margin-bottom: 24px;
@@ -291,8 +287,6 @@
             font-size: 15px;
 
         }
-
-
     </style>
 
 </head>
@@ -335,7 +329,7 @@
 
     <div class="container">
 
-        <div class="card" >
+        <div class="card">
 
             <div class="title">
                 Preview
@@ -403,7 +397,7 @@
 
 
 
-        
+
         <div class="card">
             <div class="title">
                 Folio 2.0
@@ -428,7 +422,7 @@
 
 
 
-            <div class="card">
+        <div class="card">
 
             <div class="title">
                 FAQ
@@ -445,7 +439,8 @@
 
                 <div class="feature">
                     <h3>Why isn't Folio available on Web Stores?</h3>
-                    <p2>I don't have the resources to go through the review process for each store, so it's only an unpacked extension for now.</p2>
+                    <p2>I don't have the resources to go through the review process for each store, so it's only an
+                        unpacked extension for now.</p2>
                 </div>
 
 
@@ -457,7 +452,8 @@
 
                 <div class="feature">
                     <h3>What makes Folio different?</h3>
-                    <p2>It's designed with simplicity and customization in mind. Everything is fully customizable - you can even use custom CSS!</p2>
+                    <p2>It's designed with simplicity and customization in mind. Everything is fully customizable - you
+                        can even use custom CSS!</p2>
                 </div>
 
             </div>

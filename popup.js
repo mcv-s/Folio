@@ -14,6 +14,7 @@ const REDIRECT_URL_KEY = "redirectUrl";
 const SHOW_HISTORY_KEY = "showHistory";
 const GRID_SNAP_KEY = "widgetGridSnap";
 const SITELAUNCHER_KEY = "siteLauncher";
+const AUTO_SUGGEST_KEY = "autoSuggest";
 
 
 
@@ -32,11 +33,23 @@ enterToggle.addEventListener("change", e => {
 
 // ===== SHOW SEARCH BAR =====
 const searchBarToggle = document.getElementById("searchBarToggle");
-searchBarToggle.checked = localStorage.getItem(SEARCH_BAR_KEY) !== "false";
+
+storage.get(SEARCH_BAR_KEY, (data) => {
+  searchBarToggle.checked = data[SEARCH_BAR_KEY] ?? true;
+});
 
 searchBarToggle.addEventListener("change", e => {
-  localStorage.setItem(SEARCH_BAR_KEY, e.target.checked);
+  storage.set({
+    [SEARCH_BAR_KEY]: e.target.checked
+  });
 });
+
+
+
+
+
+
+
 
 // ===== SYSTEM THEME AUTO =====
 function applyTheme() {
@@ -142,7 +155,7 @@ showHistoryToggle.addEventListener("change", (e) => {
 // ===== SITE LAUNCHER =====
 const siteLauncherToggle = document.getElementById("siteLauncher");
 
-// restore state (default = false)
+// restore state (default = true)
 storage.get(SITELAUNCHER_KEY, (data) => {
   siteLauncherToggle.checked = data[SITELAUNCHER_KEY] ?? true;
 });
@@ -151,6 +164,25 @@ storage.get(SITELAUNCHER_KEY, (data) => {
 siteLauncherToggle.addEventListener("change", (e) => {
   storage.set({
     [SITELAUNCHER_KEY]: e.target.checked
+  });
+});
+
+
+
+
+
+// ===== SITE LAUNCHER =====
+const autoSuggestToggle = document.getElementById("autoSuggest");
+
+// restore state (default = true)
+storage.get(AUTO_SUGGEST_KEY, (data) => {
+  autoSuggestToggle.checked = data[AUTO_SUGGEST_KEY] ?? true;
+});
+
+// save on change
+autoSuggestToggle.addEventListener("change", (e) => {
+  storage.set({
+    [AUTO_SUGGEST_KEY]: e.target.checked
   });
 });
 
@@ -274,7 +306,7 @@ bgUpload.addEventListener("change", (e) => {
     preview.src = imgData;
     preview.style.display = "block";
     previewWrapper.style.display = "block";
-    preview.style.filter = `blur(${blurSlider.value/100}px)`;
+    preview.style.filter = `blur(${blurSlider.value / 100}px)`;
   };
 
   reader.readAsDataURL(file);
@@ -527,9 +559,9 @@ function renderWidgetSettings() {
 
       widgets.forEach((widget) => {
         // widgetSettingsContainer.appendChild(document.createElement("br"));
-        
 
-        
+
+
         const section = document.createElement("div");
         section.style.marginTop = "12px";
 
@@ -545,11 +577,11 @@ function renderWidgetSettings() {
           section.appendChild(row);
         });
 
-        
+
         widgetSettingsContainer.appendChild(section);
         // widgetSettingsContainer.appendChild(document.createElement("br"));
         widgetSettingsContainer.appendChild(document.createElement("hr"));
-        
+
       });
     });
   });

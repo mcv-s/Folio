@@ -26,20 +26,20 @@ export async function init(sitePins) {
 
       ${sites.map(site => {
 
-        let url = site;
+    let url = site;
 
-        if (
-          !url.startsWith("http://") &&
-          !url.startsWith("https://")
-        ) {
-          url = "" + url;
-        }
-
-
-        const domain = new URL(url).hostname;
+    if (
+      !url.startsWith("http://") &&
+      !url.startsWith("https://")
+    ) {
+      url = "" + url;
+    }
 
 
-        return `
+    const domain = new URL(url).hostname;
+
+
+    return `
 
           <a class="pin"
                   href="${url}"
@@ -53,7 +53,7 @@ export async function init(sitePins) {
 
         `;
 
-      }).join("")}
+  }).join("")}
 
     </div>
 
@@ -176,10 +176,10 @@ export async function init(sitePins) {
         / rows;
 
 
-        const size =
+      const size =
         Math.min(
-            cellWidth,
-            cellHeight
+          cellWidth,
+          cellHeight
         ) * 0.75;
 
 
@@ -223,14 +223,14 @@ export async function init(sitePins) {
 
 
 
-    buttons.forEach(button => {
+  buttons.forEach(button => {
 
     button.onclick = () => {
 
-        window.location.href = button.dataset.url;
+      window.location.href = button.dataset.url;
 
     };
 
-    });
+  });
 
 }

@@ -1,74 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>New Tab</title>
 
-<link id="favicon" rel="icon" href="light.png">
-<link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="bar.css">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New Tab</title>
+
+  <link id="favicon" rel="icon" href="light.png">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="bar.css">
 </head>
 
 <body>
 
-<canvas id="c"></canvas>
+  <canvas id="c"></canvas>
 
-<!-- Elements because I know how nice extra elements are :D  -->
-<div id="custom-css-1"></div>
-<div id="custom-css-2"></div>
-<div id="custom-css-3"></div>
-<div id="custom-css-4"></div>
-
-
-<!-- WIDGET LAYER -->
-<div id="widgetLayer"></div>
+  <!-- Elements because I know how nice extra elements are :D  -->
+  <div id="custom-css-1"></div>
+  <div id="custom-css-2"></div>
+  <div id="custom-css-3"></div>
+  <div id="custom-css-4"></div>
 
 
+  <!-- WIDGET LAYER -->
+  <div id="widgetLayer"></div>
 
-<div class="center-ui">
 
-  <div class="stack">
 
-    <!-- SEARCH BAR -->
-    <div id="searchBar"></div>
+  <div class="center-ui">
 
-    <!-- AI SELECTOR BUBBLE -->
-  <div class="ai-bubble" id="aiBubble">
+    <div class="stack">
 
-    <div class="ai-selected" id="aiSelected">
-      ChatGPT
-      <span class="chev">▾</span>
+      <!-- SEARCH BAR -->
+      <div id="searchBar"></div>
+
+      <!-- AI SELECTOR BUBBLE -->
+      <div class="ai-bubble" id="aiBubble">
+
+        <div class="ai-selected" id="aiSelected">
+          ChatGPT
+          <span class="chev">▾</span>
+        </div>
+
+        <div class="ai-menu" id="aiMenu">
+          <div class="ai-option active" data-value="chatgpt">ChatGPT</div>
+          <div class="ai-option" data-value="claude">Claude</div>
+          <div class="ai-option" data-value="grok">Grok</div>
+          <div class="ai-option" data-value="perplexity">Perplexity</div>
+          <div class="ai-option" data-value="mistral">Mistral</div>
+          <div class="ai-option" data-value="copilot">Bing Copilot</div>
+        </div>
+
+      </div>
+
     </div>
 
-    <div class="ai-menu" id="aiMenu">
-      <div class="ai-option active" data-value="chatgpt">ChatGPT</div>
-      <div class="ai-option" data-value="claude">Claude</div>
-      <div class="ai-option" data-value="grok">Grok</div>
-      <div class="ai-option" data-value="perplexity">Perplexity</div>
-      <div class="ai-option" data-value="mistral">Mistral</div>
-      <div class="ai-option" data-value="copilot">Bing Copilot</div>
+    <!-- HISTORY PANEL -->
+    <div id="historyPanel" class="history-panel">
+
+      <div class="history-title">Recently Visited</div>
+
+      <div class="history-list" id="historyList">
+
+
+      </div>
+
     </div>
 
-  </div>
-
-</div>
-
-<!-- HISTORY PANEL -->
-<div id="historyPanel" class="history-panel">
-
-  <div class="history-title">Recently Visited</div>
-
-  <div class="history-list" id="historyList">
-
-
-  </div>
-
-</div>
-
-<script src="storage.js"></script>
-<script src="newtab.js"></script>
-<script type="module" src="widgets.js"></script>
+    <script src="storage.js"></script>
+    <script src="newtab.js"></script>
+    <script type="module" src="widgets.js"></script>
 
 </body>
+
 </html>

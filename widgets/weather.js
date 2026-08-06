@@ -239,16 +239,16 @@ export async function init(weather) {
 
 
       return {
-        lat:data.latitude,
-        lon:data.longitude
+        lat: data.latitude,
+        lon: data.longitude
       };
 
 
     } catch {
 
       return {
-        lat:34.1015,
-        lon:-84.5194
+        lat: 34.1015,
+        lon: -84.5194
       };
 
     }
@@ -259,7 +259,7 @@ export async function init(weather) {
 
   try {
 
-    const {lat, lon} = await getLocation();
+    const { lat, lon } = await getLocation();
 
 
     const url =
@@ -361,7 +361,7 @@ export async function init(weather) {
     render();
 
 
-  } catch(err) {
+  } catch (err) {
 
     content.innerHTML = `
       <div style="opacity:0.6;">

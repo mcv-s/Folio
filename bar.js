@@ -4,8 +4,14 @@ const bar = document.querySelector(".search-bar");
 const autocomplete = document.getElementById("autocomplete");
 const ghost = document.getElementById("ghostText");
 
+const AUTO_SUGGEST_KEY = "autoSuggest";
 
 let selectedAI = localStorage.getItem("selectedAI") || "chatgpt";
+let autoSuggestEnabled = true;
+
+storage.get(AUTO_SUGGEST_KEY, (data) => {
+    autoSuggestEnabled = data[AUTO_SUGGEST_KEY] ?? true;
+});
 
 
 
@@ -117,6 +123,8 @@ async function updateCompletion() {
     if (ghost)
         ghost.innerHTML = "";
 
+    if (!autoSuggestEnabled)
+        return;
 
     clearTimeout(suggestionTimer);
 
@@ -345,8 +353,8 @@ function launch() {
 
         window.location.href =
             text.startsWith("http")
-            ? text
-            : "https://" + text;
+                ? text
+                : "https://" + text;
 
         return;
     }
