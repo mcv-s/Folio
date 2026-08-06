@@ -115,10 +115,14 @@ async function toggleFolioBar() {
 
 
 
-    // Now bar.js can find the elements
-    const script = document.createElement("script");
-    script.src = chrome.runtime.getURL("bar.js");
-    document.head.appendChild(script);
+    if (!document.getElementById("folio-bar-script")) {
+
+        const script = document.createElement("script");
+        script.id = "folio-bar-script";
+        script.src = chrome.runtime.getURL("bar.js");
+        document.head.appendChild(script);
+
+    }
 
 
 

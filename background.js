@@ -122,10 +122,28 @@ chrome.contextMenus.onClicked.addListener((info) => {
 
 // Get recent history
 chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
+
   if (req.action === "getHistory") {
-    chrome.history.search({ text: '', maxResults: 20, startTime: 0 }, sendResponse);
+    chrome.history.search(
+      { text: "", maxResults: 20, startTime: 0 },
+      sendResponse
+    );
     return true;
   }
+
+  if (req.action === "autocomplete") {
+
+    fetch(
+      "https://duckduckgo.com/ac/?q=" +
+      encodeURIComponent(req.query)
+    )
+      .then(r => r.json())
+      .then(data => sendResponse(data.map(x => x.phrase)))
+      .catch(() => sendResponse([]));
+
+    return true;
+  }
+
 });
 
 
