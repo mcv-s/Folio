@@ -13,6 +13,7 @@ const REDIRECT_ENABLED_KEY = "redirectEnabled";
 const REDIRECT_URL_KEY = "redirectUrl";
 const SHOW_HISTORY_KEY = "showHistory";
 const GRID_SNAP_KEY = "widgetGridSnap";
+const SITELAUNCHER_KEY = "siteLauncher";
 
 
 
@@ -119,6 +120,7 @@ _24hourTimeToggle.addEventListener("change", (e) => {
 // ===== SHOW HISTORY =====
 const showHistoryToggle = document.getElementById("showHistory");
 
+
 // restore state (default = false)
 storage.get(SHOW_HISTORY_KEY, (data) => {
   showHistoryToggle.checked = data[SHOW_HISTORY_KEY] === true;
@@ -136,6 +138,21 @@ showHistoryToggle.addEventListener("change", (e) => {
 
 
 
+
+// ===== SITE LAUNCHER =====
+const siteLauncherToggle = document.getElementById("siteLauncher");
+
+// restore state (default = false)
+storage.get(SITELAUNCHER_KEY, (data) => {
+  siteLauncherToggle.checked = data[SITELAUNCHER_KEY] ?? true;
+});
+
+// save on change
+siteLauncherToggle.addEventListener("change", (e) => {
+  storage.set({
+    [SITELAUNCHER_KEY]: e.target.checked
+  });
+});
 
 
 

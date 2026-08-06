@@ -1,3 +1,24 @@
+
+
+// Loading Storage System
+const storage = {
+  get(keys, callback) {
+    chrome.storage.local.get(keys, callback);
+  },
+
+  set(items, callback) {
+    chrome.storage.local.set(items, callback);
+  }
+};
+
+const SITELAUNCHER_KEY = "siteLauncher";
+
+
+
+
+
+
+
 const AI_MAP = {
   chatgpt: {
     name: "ChatGPT",
@@ -38,6 +59,11 @@ function getAI(cb) {
     cb(AI_MAP[ai] ? ai : DEFAULT_AI);
   });
 }
+
+
+
+
+
 
 /* -----------------------------
    MENU TITLE UPDATE (IMPORTANT)
@@ -160,17 +186,26 @@ chrome.commands.onCommand.addListener(async (command) => {
 
     if (command === "open-folio-search") {
 
-        const [tab] = await chrome.tabs.query({
-            active: true,
-            currentWindow: true
-        });
+        storage.get(SITELAUNCHER_KEY, async (data) => {
+
+            const enabled = data[SITELAUNCHER_KEY] ?? true;
+
+            if (!enabled) return;
 
 
-        if (!tab?.id) return;
+            const [tab] = await chrome.tabs.query({
+                active: true,
+                currentWindow: true
+            });
 
 
-        chrome.tabs.sendMessage(tab.id, {
-            action: "open-folio-search"
+            if (!tab?.id) return;
+
+
+            chrome.tabs.sendMessage(tab.id, {
+                action: "open-folio-search"
+            });
+
         });
 
     }
