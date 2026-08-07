@@ -132,7 +132,64 @@
 
 
 
+  function exportData(filename = "folio-backup.json") {
+    const finish = (data) => {
+      const blob = new Blob(
+        [JSON.stringify(data, null, 2)],
+        { type: "application/json" }
+      );
 
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      a.click();
+
+      setTimeout(() => URL.revokeObjectURL(url), 0);
+    };
+
+    if (chromeStorage) {
+      chrome.storage.local.get(null, finish);
+    } else {
+      finish(getAllFromLocalStorage());
+    }
+  }
+
+  function importData(file, callback) {
+    if (!(file instanceof File)) {
+      if (typeof callback === "function") callback(false);
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(reader.result);
+
+        if (chromeStorage) {
+          chrome.storage.local.set(data, () => {
+            if (typeof callback === "function") callback(true);
+          });
+        } else {
+          Object.entries(data).forEach(([key, value]) => {
+            localStorage.setItem(
+              getPrefixedKey(key),
+              serializeValue(value)
+            );
+          });
+
+          if (typeof callback === "function") callback(true);
+        }
+      } catch (err) {
+        console.error("Invalid backup file.", err);
+        if (typeof callback === "function") callback(false);
+      }
+    };
+
+    reader.readAsText(file);
+  }
 
 
 
@@ -143,6 +200,8 @@
   window.folioStorage = {
     get,
     set,
-    watch
+    watch,
+    exportData,
+    importData
   };
 }());

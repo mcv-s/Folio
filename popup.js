@@ -1,6 +1,29 @@
 ﻿const storage = window.folioStorage || {
-  get(keys, callback) { callback({}); },
-  set(items, callback) { if (typeof callback === "function") setTimeout(() => callback(items), 0); }
+  get(keys, callback) {
+    callback({});
+  },
+
+  set(items, callback) {
+    if (typeof callback === "function") {
+      setTimeout(() => callback(items), 0);
+    }
+  },
+
+  watch(key, callback) {
+    // fallback does nothing
+  },
+
+  exportData(filename) {
+    console.warn("Folio storage unavailable. Cannot export.");
+  },
+
+  importData(file, callback) {
+    console.warn("Folio storage unavailable. Cannot import.");
+
+    if (typeof callback === "function") {
+      callback(false);
+    }
+  }
 };
 
 const hasChromeTabs = typeof chrome !== "undefined" && chrome?.tabs?.create;
@@ -645,6 +668,77 @@ if (isPreview) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ===== IMPORT / EXPORT SETTINGS =====
+
+const exportButton = document.getElementById("exportData");
+const importButton = document.getElementById("importData");
+
+
+// Export
+if (exportButton) {
+  exportButton.addEventListener("click", () => {
+    storage.exportData("folio-backup.json");
+  });
+}
+
+
+// Import
+if (importButton) {
+  importButton.addEventListener("click", () => {
+    const input = document.createElement("input");
+
+    input.type = "file";
+    input.accept = ".json,application/json";
+
+    input.onchange = () => {
+      const file = input.files[0];
+
+      if (!file) return;
+
+      storage.importData(file, (success) => {
+        if (success) {
+          alert("Folio settings imported successfully!");
+          location.reload();
+        } else {
+          alert("Failed to import Folio settings.");
+        }
+      });
+    };
+
+    input.click();
+  });
+}
 
 
 

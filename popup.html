@@ -91,6 +91,12 @@
       color: white;
       font-weight: 600;
       cursor: pointer;
+      opacity: 1;
+      transition: 0.2s ease;
+    }
+
+    button:hover {
+      opacity: 0.8;
     }
 
     .hint {
@@ -349,7 +355,7 @@
       <div class="hint" style="margin:0;">This is a preview, some features may not work.</div>
       <br>
       <div class="hint" style="margin:0;">You must refresh the new tab page for changes to take place.</div>
-      
+
     </div>
     <button id="openActualTabButton" style="
     width:auto;
@@ -665,6 +671,40 @@
 
         <div class="hint">Applied automatically on new tab</div>
       </div>
+
+
+
+      <hr>
+
+      <div style="margin-top:12px;">
+        <div class="title">Data</div>
+
+        <div class="info">You can import and export your folio settings as a json file.</div>
+
+        <br>
+
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <button id="exportData"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="var(--text)"
+              viewBox="0 0 256 256">
+              <path
+                d="M228,144v64a12,12,0,0,1-12,12H40a12,12,0,0,1-12-12V144a12,12,0,0,1,24,0v52H204V144a12,12,0,0,1,24,0Zm-108.49,8.49a12,12,0,0,0,17,0l40-40a12,12,0,0,0-17-17L140,115V32a12,12,0,0,0-24,0v83L96.49,95.51a12,12,0,0,0-17,17Z">
+              </path>
+            </svg></button>
+
+          <button id="importData"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="var(--text)"
+              viewBox="0 0 256 256">
+              <path
+                d="M228,144v64a12,12,0,0,1-12,12H40a12,12,0,0,1-12-12V144a12,12,0,0,1,24,0v52H204V144a12,12,0,0,1,24,0ZM96.49,80.49,116,61v83a12,12,0,0,0,24,0V61l19.51,19.52a12,12,0,1,0,17-17l-40-40a12,12,0,0,0-17,0l-40,40a12,12,0,1,0,17,17Z">
+              </path>
+            </svg></button>
+        </div>
+      </div>
+
+
+
+
+
+
 
 
     </div>
