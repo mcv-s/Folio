@@ -598,6 +598,7 @@ renderWidgetSettings();
 
 // Opened as a full browser tab?
 const isTab = new URLSearchParams(location.search).has("tab");
+const isPreview = new URLSearchParams(location.search).has("preview");
 
 if (isTab) {
   document.getElementById("openInTab")?.remove();
@@ -623,6 +624,21 @@ if (isTab) {
 
     window.close();
   });
+}
+
+
+
+
+if (isPreview) {
+  document.getElementById("openActualTabButton")?.addEventListener("click", () => {
+    const url = runtimeGetURL("newtab.html");
+
+    document.getElementById("previewBanner")?.remove();
+    window.open(url, "_blank");
+
+  });
+} else {
+  document.getElementById("previewBanner")?.remove();
 }
 
 
