@@ -164,16 +164,33 @@ canvas {
 
 .widget-resize {
     position: absolute;
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     right: 4px;
     bottom: 4px;
     cursor: nwse-resize;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 3px;
     opacity: 0;
     transition: opacity 0.2s ease;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: var(--icon-filter);
 }
+
+.widget-resize {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256' fill='%23f2f2f2' fill-opacity='0.5'%3E%3Cpath d='M213.66,133.66l-80,80a8,8,0,0,1-11.32-11.32l80-80a8,8,0,0,1,11.32,11.32Zm-16-99.32a8,8,0,0,0-11.32,0l-152,152a8,8,0,0,0,11.32,11.32l152-152A8,8,0,0,0,197.66,34.34Z'/%3E%3C/svg%3E");
+}
+
+@media (prefers-color-scheme: light) {
+    .widget-resize {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256' fill='%23000000' fill-opacity='0.5'%3E%3Cpath d='M213.66,133.66l-80,80a8,8,0,0,1-11.32-11.32l80-80a8,8,0,0,1,11.32,11.32Zm-16-99.32a8,8,0,0,0-11.32,0l-152,152a8,8,0,0,0,11.32,11.32l152-152A8,8,0,0,0,197.66,34.34Z'/%3E%3C/svg%3E");
+    }
+}
+
+
+
+
 
 .widget:hover .widget-resize,
 .widget:hover .widget-header {
@@ -371,9 +388,6 @@ canvas {
         color: rgba(0, 0, 0, 0.7);
     }
 
-    .widget-resize {
-        background: rgba(0, 0, 0, 0.2);
-    }
 
     .widget button:not([class]):not([style]) {
         border-color: rgba(0, 0, 0, 0.12);
@@ -423,3 +437,41 @@ canvas {
         background: rgba(0, 0, 0, 0.25);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+/* Grid */
+
+
+#widgetGridOverlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .3s ease;
+
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,.08) 1px, transparent 1px);
+
+  background-size: var(--grid-size) var(--grid-size);
+
+  z-index: 0;
+  background-position: 0 0;
+}
+
+
+
+
+#widgetGridOverlay.visible {
+  opacity: 1;
+}
+

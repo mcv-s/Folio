@@ -3,6 +3,8 @@ const widgetStateKey = "widgetState";
 const GRID_SNAP_KEY = "widgetGridSnap";
 const GRID_SIZE = 25;
 
+
+
 export let is24Hour = false;
 
 export function set24HourPreference(value) {
@@ -112,6 +114,8 @@ function makeDraggable(el) {
   header.addEventListener("mousedown", (e) => {
     dragging = true;
 
+    showGrid();
+
     const rect = el.getBoundingClientRect();
     offsetX = e.clientX - rect.left + 20;
     offsetY = e.clientY - rect.top + 20;
@@ -136,6 +140,7 @@ function makeDraggable(el) {
 
   window.addEventListener("mouseup", () => {
     dragging = false;
+    hideGrid();
     document.body.style.userSelect = "";
   });
 }
@@ -152,6 +157,8 @@ function makeResizable(el) {
   handle.addEventListener("mousedown", (e) => {
     resizing = true;
 
+    showGrid()
+
     const rect = el.getBoundingClientRect();
 
     startX = e.clientX;
@@ -164,6 +171,8 @@ function makeResizable(el) {
 
   window.addEventListener("mousemove", (e) => {
     if (!resizing) return;
+
+    
 
     const w = startW + (e.clientX - startX - 2);
     const h = startH + (e.clientY - startY - 2);
@@ -178,6 +187,7 @@ function makeResizable(el) {
 
   window.addEventListener("mouseup", () => {
     resizing = false;
+    hideGrid()
   });
 }
 
@@ -234,3 +244,55 @@ if (window.visualViewport) {
 }
 
 window.addEventListener("resize", handleViewportChange);
+
+
+
+
+
+
+
+
+
+
+// Init grid
+
+function showGrid() {
+  if (!getGridSnapEnabled()) return;
+
+  let grid = document.getElementById("widgetGridOverlay");
+
+  if (!grid) {
+    grid = document.createElement("div");
+    grid.id = "widgetGridOverlay";
+    document.body.appendChild(grid);
+  }
+
+  const center = getViewportCenter();
+
+  grid.style.setProperty("--grid-size", `${GRID_SIZE}px`);
+
+  grid.style.backgroundPosition =
+    `${center.x % GRID_SIZE + 20}px ${center.y % GRID_SIZE + 20}px`;
+
+  requestAnimationFrame(() => {
+    grid.classList.add("visible");
+  });
+
+}
+
+
+
+
+
+function hideGrid() {
+  const grid = document.getElementById("widgetGridOverlay");
+
+  if (grid) {
+    grid.classList.remove("visible");
+  }
+}
+
+
+
+
+
