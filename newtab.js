@@ -549,7 +549,7 @@ async function loadSearchBar() {
     storage.get("showHistory", (data) => {
       const enabled = data.showHistory === true;
 
-      historyPanel.classList.toggle("hidden", !enabled);
+      historyPanel.classList.toggle("hidden", !enabled || isPreview);
     });
   }
 
