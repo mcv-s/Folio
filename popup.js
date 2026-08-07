@@ -631,7 +631,7 @@ if (isTab) {
 
 if (isPreview) {
   document.getElementById("openActualTabButton")?.addEventListener("click", () => {
-    const url = runtimeGetURL("newtab.html");
+    const url = runtimeGetURL("newtab.html?preview=1");
 
     document.getElementById("previewBanner")?.remove();
     window.open(url, "_blank");

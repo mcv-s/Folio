@@ -25,6 +25,10 @@ const SEARCH_BAR_KEY = "showSearchBar";
 
 
 
+// Is it a preview?
+const isPreview = new URLSearchParams(location.search).has("preview");
+
+
 
 
 
@@ -583,7 +587,7 @@ async function loadSearchBar() {
     const el = document.getElementById("historyList");
     if (!el) return;
 
-    if (!runtimeSendMessage) {
+    if ((!runtimeSendMessage) || isPreview) {
       el.innerHTML = `<div class="history-item"><div class="history-icon"></div><div class="history-text">History is unavailable in browser mode</div></div>`;
       return;
     }
