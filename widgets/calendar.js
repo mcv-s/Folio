@@ -6,7 +6,10 @@ const CACHE_KEY = "calendarEventsCache";
 const REFRESH_INTERVAL = 30 * 1000;
 
 
-// # Calendar Integration Release Notes
+// # Calendar Integration V2
+
+
+// ## V2 Release Notes:
 
 // Fixed some bugs:
 
@@ -17,7 +20,6 @@ const REFRESH_INTERVAL = 30 * 1000;
 
 // -   Data Caching for quicker load times
 // -   Auto-refresh every 30 seconds if the page is focused
-
 
 
 
