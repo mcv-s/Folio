@@ -974,13 +974,70 @@
                     await loadMarked();
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
                 content.innerHTML =
                     marked.parse(markdown);
 
 
+
+
+
+
                 /* =========================================================
-Fix Markdown Links
-========================================================= */
+                   Fix Markdown Image Paths
+                   ========================================================= */
+
+                const images = content.querySelectorAll("img");
+
+                images.forEach(image => {
+
+                    const src = image.getAttribute("src");
+
+                    if (!src) {
+                        return;
+                    }
+
+                    /*
+                     * Only adjust image paths when running on:
+                     *
+                     * mcv-s.github.io
+                     *
+                     * /Images/xyz.png
+                     *
+                     * becomes:
+                     *
+                     * /folio/Images/xyz.png
+                     */
+
+                    if (
+                        window.location.hostname === "mcv-s.github.io" &&
+                        src.startsWith("/Images/")
+                    ) {
+                        image.src = "/folio" + src;
+                    }
+
+                });
+
+
+
+
+
+
+                /* =========================================================
+                Fix Markdown Links
+                ========================================================= */
 
                 const links =
                     content.querySelectorAll("a");
@@ -1038,6 +1095,20 @@ Fix Markdown Links
                     }
 
                 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                 buildSidebar();
