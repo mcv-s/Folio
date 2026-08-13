@@ -91,7 +91,7 @@ async function loadSearchBar() {
   const FOLIO_DEFAULTS = {
     // Background
     bgEnabled: true,
-    bgImage: "theme_bg.png",
+    bgImage: "Images/theme_bg.png",
     bgBlur: 15,
     bgRandom: false,
     bgUseImageLink: false,
