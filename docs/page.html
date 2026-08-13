@@ -2,8 +2,29 @@
 <html lang="en">
 
 <head>
-    <link rel="icon" type="image/png" sizes="32x32" href="icons/Folio-Icon-Main.png">
-    <link rel="shortcut icon" href="icons/Folio-Icon-Main.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/Folio-Icon-Main.png">
+    <link rel="shortcut icon" href="/icons/Folio-Icon-Main.png">
+
+    <script>
+        if (window.location.hostname === "mcv-s.github.io") {
+            document.querySelectorAll(
+                'link[rel="icon"], link[rel="shortcut icon"]'
+            ).forEach(link => {
+
+                const href = link.getAttribute("href");
+
+                if (
+                    href &&
+                    href.startsWith("/icons/")
+                ) {
+                    link.href =
+                        "/folio" + href;
+                }
+
+            });
+        }
+    </script>
+
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -927,9 +948,9 @@
 
                 content.innerHTML =
                     '<div class="error">' +
-                    "Add a document to the URL, for example " +
-                    "<code>page.html#readit</code>." +
-                    "</div>";
+                    'Add a document to the URL, for example ' +
+                    '<a href="#home"><code>page.html#home</code></a>.' +
+                    '</div>';
 
                 return;
             }
