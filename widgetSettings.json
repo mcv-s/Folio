@@ -125,6 +125,31 @@
           "default": ""
         }
       ]
+    },
+    {
+      "key": "markdown-note",
+      "title": "Custom Markdown/HTML",
+      "settings": [
+        {
+          "key": "enabled",
+          "label": "Enable a formatted markdown + custom HTML file widget",
+          "type": "toggle",
+          "default": false
+        },
+        {
+          "key": "actualMarkdown",
+          "label": "",
+          "type": "textarea",
+          "placeholder": "Raw markdown/html here",
+          "default": ""
+        },
+        {
+          "key": "none",
+          "label": "This markdown supports full html + <style> tags: lots of cool functionality!",
+          "type": "h4",
+          "default": ""
+        }
+      ]
     }
   ]
 }
