@@ -150,6 +150,25 @@
           "default": ""
         }
       ]
+    },
+    {
+      "key": "rss-feed-1",
+      "title": "Custom RSS Feed",
+      "settings": [
+        {
+          "key": "enabled",
+          "label": "Enable an RSS feed widget",
+          "type": "toggle",
+          "default": false
+        },
+        {
+          "key": "rssFeed",
+          "label": "",
+          "type": "textarea",
+          "placeholder": "RSS Feeds Here (one per line)",
+          "default": ""
+        }
+      ]
     }
   ]
 }

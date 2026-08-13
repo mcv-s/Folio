@@ -1,6 +1,13 @@
 # Folio Release Notes
 
 
+## Folio 3.0
+
+-   
+
+
+
+
 ## Folio 2.0
 
 -   Improved widget development system 
