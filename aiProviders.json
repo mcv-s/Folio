@@ -1,0 +1,30 @@
+{
+  "chatgpt": {
+    "name": "ChatGPT",
+    "url": "https://chatgpt.com/?q="
+  },
+  "claude": {
+    "name": "Claude",
+    "url": "https://claude.ai/new?q="
+  },
+  "grok": {
+    "name": "Grok",
+    "url": "https://grok.com/?q="
+  },
+  "perplexity": {
+    "name": "Perplexity",
+    "url": "https://www.perplexity.ai/search?q="
+  },
+  "mistral": {
+    "name": "Mistral",
+    "url": "https://chat.mistral.ai/chat?q="
+  },
+  "copilot": {
+    "name": "Copilot",
+    "url": "https://www.bing.com/copilotsearch?q="
+  },
+    "newAI": {
+    "name": "newAI",
+    "url": "https://www.bing.com/copilotsearch?q="
+  }
+}

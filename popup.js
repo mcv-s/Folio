@@ -38,6 +38,7 @@ const SHOW_HISTORY_KEY = "showHistory";
 const GRID_SNAP_KEY = "widgetGridSnap";
 const SITELAUNCHER_KEY = "siteLauncher";
 const AUTO_SUGGEST_KEY = "autoSuggest";
+const CONTEXT_MENU_KEY = "askAiContextMenu";
 
 
 
@@ -74,6 +75,13 @@ searchBarToggle.addEventListener("change", e => {
 
 
 
+
+
+
+
+
+
+
 // ===== SYSTEM THEME AUTO =====
 function applyTheme() {
   const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
@@ -93,6 +101,8 @@ window.matchMedia('(prefers-color-scheme: light)')
 
 
 
+
+
 // ===== CUSTOM CSS STORAGE =====
 const cssBox = document.getElementById("cssBox");
 
@@ -105,6 +115,18 @@ document.getElementById("saveCss").addEventListener("click", () => {
     customCSS: cssBox.value
   });
 });
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -194,7 +216,7 @@ siteLauncherToggle.addEventListener("change", (e) => {
 
 
 
-// ===== SITE LAUNCHER =====
+// ===== AUTOSUGGEST =====
 const autoSuggestToggle = document.getElementById("autoSuggest");
 
 // restore state (default = true)
@@ -208,6 +230,203 @@ autoSuggestToggle.addEventListener("change", (e) => {
     [AUTO_SUGGEST_KEY]: e.target.checked
   });
 });
+
+
+
+
+
+
+
+
+
+// ==========================================
+// AI PROVIDER SELECTOR
+// ==========================================
+
+const AI_PROVIDER_KEY = "selectedAI";
+
+let AI_MAP = {};
+
+const aiProviderSelect =
+  document.getElementById("aiProvider");
+
+
+// ------------------------------------------
+// Load AI providers from JSON
+// ------------------------------------------
+
+async function loadAIProviders() {
+
+  try {
+
+    const response = await fetch(
+      chrome.runtime.getURL("aiProviders.json")
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    AI_MAP = await response.json();
+
+    console.log(
+      "Folio: Loaded AI providers:",
+      AI_MAP
+    );
+
+    populateAIProviderSelector();
+
+  } catch (error) {
+
+    console.error(
+      "Folio: Failed to load AI providers:",
+      error
+    );
+
+  }
+
+}
+
+
+// ------------------------------------------
+// Populate selector
+// ------------------------------------------
+
+function populateAIProviderSelector() {
+
+  if (!aiProviderSelect) {
+    console.error(
+      "Folio: #aiProvider not found"
+    );
+    return;
+  }
+
+  aiProviderSelect.innerHTML = "";
+
+  Object.entries(AI_MAP).forEach(
+    ([key, ai]) => {
+
+      const option =
+        document.createElement("option");
+
+      option.value = key;
+      option.textContent = ai.name;
+
+      aiProviderSelect.appendChild(option);
+
+    }
+  );
+
+
+  // ----------------------------------------
+  // Restore saved provider
+  // ----------------------------------------
+
+  const savedAI =
+    localStorage.getItem(AI_PROVIDER_KEY);
+
+  let selectedAI =
+    savedAI || "chatgpt";
+
+
+  // Make sure the saved provider exists
+  if (!AI_MAP[selectedAI]) {
+
+    selectedAI = "chatgpt";
+
+    if (!AI_MAP[selectedAI]) {
+
+      const firstProvider =
+        Object.keys(AI_MAP)[0];
+
+      if (firstProvider) {
+        selectedAI = firstProvider;
+      }
+
+    }
+
+
+    // Keep BOTH storage systems synchronized
+    localStorage.setItem(
+      AI_PROVIDER_KEY,
+      selectedAI
+    );
+
+    storage.set({
+      [AI_PROVIDER_KEY]: selectedAI
+    });
+
+  }
+
+
+  aiProviderSelect.value = selectedAI;
+
+}
+
+
+// ------------------------------------------
+// Save provider when changed
+// ------------------------------------------
+
+if (aiProviderSelect) {
+
+  aiProviderSelect.addEventListener(
+    "change",
+    () => {
+
+      const selectedAI =
+        aiProviderSelect.value;
+
+
+      // SAME storage used by newtab.js
+      localStorage.setItem(
+        AI_PROVIDER_KEY,
+        selectedAI
+      );
+
+
+      // Also keep Folio storage synchronized
+      storage.set({
+        [AI_PROVIDER_KEY]: selectedAI
+      });
+
+
+      console.log(
+        "Folio: Selected AI saved:",
+        selectedAI
+      );
+
+    }
+  );
+
+}
+
+
+// ------------------------------------------
+// Start
+// ------------------------------------------
+
+loadAIProviders();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -257,6 +476,14 @@ bgLinkInput.addEventListener("input", (e) => {
     [BG_LINK_KEY]: e.target.value
   });
 });
+
+
+
+
+
+
+
+
 
 
 
@@ -619,6 +846,14 @@ renderWidgetSettings();
 
 
 
+
+
+
+
+
+
+
+
 // Opened as a full browser tab?
 const isTab = new URLSearchParams(location.search).has("tab");
 const isPreview = new URLSearchParams(location.search).has("preview");
@@ -739,6 +974,12 @@ if (importButton) {
     input.click();
   });
 }
+
+
+
+
+
+
 
 
 

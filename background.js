@@ -19,32 +19,22 @@ const SITELAUNCHER_KEY = "siteLauncher";
 
 
 
-const AI_MAP = {
-  chatgpt: {
-    name: "ChatGPT",
-    url: "https://chatgpt.com/?q="
-  },
-  claude: {
-    name: "Claude",
-    url: "https://claude.ai/new?q="
-  },
-  grok: {
-    name: "Grok",
-    url: "https://grok.com/?q="
-  },
-  perplexity: {
-    name: "Perplexity",
-    url: "https://www.perplexity.ai/search?q="
-  },
-  mistral: {
-    name: "Mistral",
-    url: "https://chat.mistral.ai/chat?q="
-  },
-  copilot: {
-    name: "Copilot",
-    url: "https://www.bing.com/copilotsearch?q="
-  }
-};
+let AI_MAP = {};
+
+fetch(chrome.runtime.getURL("aiProviders.json"))
+  .then(response => response.json())
+  .then(data => {
+    AI_MAP = data;
+  })
+  .catch(error => {
+    console.error("Failed to load AI providers:", error);
+  });
+
+
+
+
+
+
 
 const DEFAULT_AI = "grok";
 
@@ -82,42 +72,106 @@ function updateMenu() {
 }
 
 
+const CONTEXT_MENU_KEY = "askAiContextMenu";
+
 /* -----------------------------
-   INIT (MOST IMPORTANT PART)
-------------------------------*/
-function init() {
-  chrome.contextMenus.removeAll(() => {
-    chrome.contextMenus.create({
-      id: MENU_ID,
-      title: "Ask AI about \"%s\"",
-      contexts: ["selection"]
+   CONTEXT MENU
+-----------------------------*/
+
+function updateMenu() {
+  getAI((aiKey) => {
+    const name = AI_MAP[aiKey].name;
+
+    chrome.contextMenus.update(MENU_ID, {
+      title: `Ask ${name} about "%s"`
     }, () => {
-      updateMenu();
+      void chrome.runtime.lastError;
     });
   });
-
 }
+
+function createAskAIContextMenu() {
+  chrome.contextMenus.create({
+    id: MENU_ID,
+    title: "Ask AI about \"%s\"",
+    contexts: ["selection"]
+  }, () => {
+    if (chrome.runtime.lastError) {
+      void chrome.runtime.lastError;
+      return;
+    }
+
+    updateMenu();
+  });
+}
+
+function removeAskAIContextMenu() {
+  chrome.contextMenus.remove(MENU_ID, () => {
+    void chrome.runtime.lastError;
+  });
+}
+
+function syncAskAIContextMenu() {
+  chrome.storage.local.get(CONTEXT_MENU_KEY, (data) => {
+    const enabled = data[CONTEXT_MENU_KEY] ?? true;
+
+    if (enabled) {
+      createAskAIContextMenu();
+    } else {
+      removeAskAIContextMenu();
+    }
+  });
+}
+
+
+/* -----------------------------
+   INIT
+-----------------------------*/
+
+function init() {
+  chrome.contextMenus.removeAll(() => {
+    syncAskAIContextMenu();
+  });
+}
+
 
 /* -----------------------------
    EVENTS
-------------------------------*/
+-----------------------------*/
 
-// install
 chrome.runtime.onInstalled.addListener(() => {
   init();
 });
 
-// browser restart / service worker wake
 chrome.runtime.onStartup.addListener(() => {
   init();
 });
 
-// storage changes (THIS is what you were missing properly)
 chrome.storage.onChanged.addListener((changes, area) => {
-  if (area === "local" && changes.selectedAI) {
+  if (area !== "local") return;
+
+  // AI selection changed
+  if (changes.selectedAI) {
     updateMenu();
   }
+
+  // Context-menu setting changed
+  if (changes[CONTEXT_MENU_KEY]) {
+    syncAskAIContextMenu();
+  }
 });
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* -----------------------------
    CLICK HANDLER

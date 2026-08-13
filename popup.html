@@ -483,6 +483,15 @@
       </label>
     </div>
 
+    <div class="row">
+      <span>Ask AI option in context menus</span>
+      <label class="switch">
+        <input type="checkbox" id="askAiContextMenu" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+
 
 
 
@@ -544,6 +553,34 @@
       " />
 
       <div class="hint">Opens this page immediately on new tab</div>
+    </div>
+  </div>
+
+
+
+
+
+  <!-- REDIRECT -->
+  <div class="card">
+    <div class="title">Preferred AI</div>
+
+
+    <div style="margin-top:10px;">
+
+      <select id="aiProvider" style="
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background: rgba(0,0,0,0.2);
+  color: var(--text);
+  font-size: 12px;
+  box-sizing: border-box;
+">
+      </select>
+
+      <div class="hint">The selected AI which is used on new tab and in the context menu</div>
     </div>
   </div>
 
@@ -684,15 +721,15 @@
         <br>
 
         <div style="display: flex; gap: 10px; align-items: center;">
-          <button class = "upload-btn" id="exportData"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="var(--text)"
-              viewBox="0 0 256 256">
+          <button class="upload-btn" id="exportData"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+              fill="var(--text)" viewBox="0 0 256 256">
               <path
                 d="M228,144v64a12,12,0,0,1-12,12H40a12,12,0,0,1-12-12V144a12,12,0,0,1,24,0v52H204V144a12,12,0,0,1,24,0Zm-108.49,8.49a12,12,0,0,0,17,0l40-40a12,12,0,0,0-17-17L140,115V32a12,12,0,0,0-24,0v83L96.49,95.51a12,12,0,0,0-17,17Z">
               </path>
             </svg></button>
 
-          <button class = "upload-btn" id="importData"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="var(--text)"
-              viewBox="0 0 256 256">
+          <button class="upload-btn" id="importData"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+              fill="var(--text)" viewBox="0 0 256 256">
               <path
                 d="M228,144v64a12,12,0,0,1-12,12H40a12,12,0,0,1-12-12V144a12,12,0,0,1,24,0v52H204V144a12,12,0,0,1,24,0ZM96.49,80.49,116,61v83a12,12,0,0,0,24,0V61l19.51,19.52a12,12,0,1,0,17-17l-40-40a12,12,0,0,0-17,0l-40,40a12,12,0,1,0,17,17Z">
               </path>

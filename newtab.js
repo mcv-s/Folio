@@ -43,6 +43,7 @@ const isPreview = new URLSearchParams(location.search).has("preview");
 
 
 
+
 async function loadSearchBar() {
   const container = document.getElementById("searchBar");
 
@@ -252,55 +253,230 @@ async function loadSearchBar() {
 
 
 
+
+
+
+
+
+  // ==========================================
+  // AI SELECTOR
+  // ==========================================
+
+  let AI_MAP = {};
+
+  const aiMenu = document.getElementById("aiMenu");
+  const aiSelected = document.getElementById("aiSelected");
+  const aiBubble = document.getElementById("aiBubble");
+
   let selectedAI = localStorage.getItem("selectedAI") || "chatgpt";
 
-  const aiBubble = document.getElementById("aiBubble");
-  const aiSelected = document.getElementById("aiSelected");
-  const aiMenu = document.getElementById("aiMenu");
-  const aiOptions = document.querySelectorAll(".ai-option");
 
-  // restore UI on load
-  window.addEventListener("load", () => {
+  // ------------------------------------------
+  // Load AI providers from JSON
+  // ------------------------------------------
+
+  async function loadAIProviders() {
+    try {
+
+      const response = await fetch(
+        chrome.runtime.getURL("aiProviders.json")
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      AI_MAP = await response.json();
+
+      console.log("Folio: Loaded AI providers:", AI_MAP);
+
+      populateAISelector();
+
+    } catch (error) {
+
+      console.error(
+        "Folio: Failed to load AI providers:",
+        error
+      );
+
+    }
+  }
+
+
+  // ------------------------------------------
+  // Populate dropdown
+  // ------------------------------------------
+
+  function populateAISelector() {
+
+    if (!aiMenu) {
+      console.error("Folio: #aiMenu not found");
+      return;
+    }
+
+    aiMenu.innerHTML = "";
+
+    Object.entries(AI_MAP).forEach(([key, ai]) => {
+
+      const option = document.createElement("div");
+
+      option.className = "ai-option";
+      option.dataset.value = key;
+      option.textContent = ai.name;
+
+      aiMenu.appendChild(option);
+
+    });
+
+    initializeAISelector();
+  }
+
+
+  // ------------------------------------------
+  // Initialize selector behavior
+  // ------------------------------------------
+
+  function initializeAISelector() {
+
+    if (!aiMenu || !aiSelected || !aiBubble) {
+      console.error("Folio: AI selector elements missing");
+      return;
+    }
+
+    const aiOptions =
+      aiMenu.querySelectorAll(".ai-option");
+
+
+    // Make sure saved provider still exists
+    if (!AI_MAP[selectedAI]) {
+      selectedAI = "chatgpt";
+
+      if (!AI_MAP[selectedAI]) {
+        const firstAI = Object.keys(AI_MAP)[0];
+
+        if (firstAI) {
+          selectedAI = firstAI;
+        }
+      }
+
+      localStorage.setItem(
+        "selectedAI",
+        selectedAI
+      );
+
+      storage.set({
+        selectedAI
+      });
+    }
+
+
+    // ----------------------------------------
+    // Restore selected provider
+    // ----------------------------------------
+
     aiOptions.forEach(opt => {
-      const match = opt.dataset.value === selectedAI;
 
-      opt.classList.toggle("active", match);
+      const match =
+        opt.dataset.value === selectedAI;
+
+      opt.classList.toggle(
+        "active",
+        match
+      );
 
       if (match) {
-        aiSelected.firstChild.textContent = opt.textContent + " ";
+
+        aiSelected.firstChild.textContent =
+          opt.textContent + " ";
+
       }
+
     });
-  });
 
-  // toggle dropdown
-  aiBubble.addEventListener("click", (e) => {
-    e.stopPropagation();
-    aiBubble.classList.toggle("open");
-  });
 
-  // select option
-  aiOptions.forEach(opt => {
-    opt.addEventListener("click", (e) => {
+    // ----------------------------------------
+    // Toggle dropdown
+    // ----------------------------------------
+
+    aiBubble.onclick = (e) => {
+
       e.stopPropagation();
 
-      selectedAI = opt.dataset.value;
+      aiBubble.classList.toggle("open");
 
-      localStorage.setItem("selectedAI", selectedAI);
-      storage.set({ selectedAI });
+    };
 
-      aiSelected.firstChild.textContent = opt.textContent + " ";
 
-      aiOptions.forEach(o => o.classList.remove("active"));
-      opt.classList.add("active");
+    // ----------------------------------------
+    // Select provider
+    // ----------------------------------------
 
-      aiBubble.classList.remove("open");
+    aiOptions.forEach(opt => {
+
+      opt.addEventListener("click", (e) => {
+
+        e.stopPropagation();
+
+        selectedAI =
+          opt.dataset.value;
+
+        localStorage.setItem(
+          "selectedAI",
+          selectedAI
+        );
+
+        storage.set({
+          selectedAI
+        });
+
+
+        aiSelected.firstChild.textContent =
+          opt.textContent + " ";
+
+
+        aiOptions.forEach(o => {
+
+          o.classList.remove("active");
+
+        });
+
+
+        opt.classList.add("active");
+
+        aiBubble.classList.remove("open");
+
+      });
+
     });
+
+  }
+
+
+  // ------------------------------------------
+  // Close dropdown when clicking elsewhere
+  // ------------------------------------------
+
+  document.addEventListener("click", () => {
+
+    if (aiBubble) {
+      aiBubble.classList.remove("open");
+    }
+
   });
 
-  // close on outside click
-  document.addEventListener("click", () => {
-    aiBubble.classList.remove("open");
-  });
+
+  // ------------------------------------------
+  // ACTUALLY LOAD THE JSON
+  // ------------------------------------------
+
+  loadAIProviders();
+
+
+
+
+
+
+
 
 
 
@@ -681,6 +857,6 @@ async function loadSearchBar() {
 
 
 
-
+  loadAIProviders()
 
 })(); // Everything above this line happens after the bar is loaded.

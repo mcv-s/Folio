@@ -132,7 +132,7 @@
       "settings": [
         {
           "key": "enabled",
-          "label": "Enable a formatted markdown + custom HTML file widget",
+          "label": "Enable a markdown/HTML widget",
           "type": "toggle",
           "default": false
         },

@@ -1,8 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "Folio - Ultimate New Tab",
+  "name": "__MSG_extensionName__",
   "version": "1.0",
-  "description": "A custom new tab. Supports custom CSS, widgets + integrations, random & custom background images, and an AI search bar.",
+  "description": "__MSG_extensionDescription__",
+  "short_description": "__MSG_extensionShortDescription__",
+  "default_locale": "en",
   "chrome_url_overrides": {
     "newtab": "newtab.html"
   },
@@ -10,8 +12,7 @@
     "storage",
     "contextMenus",
     "activeTab",
-    "history",
-    "tabs"
+    "history"
   ],
   "host_permissions": [
     "https://*/*"
