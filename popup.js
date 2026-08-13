@@ -804,13 +804,36 @@ function createSettingInput(setting, widgetState) {
   return wrapper;
 }
 
-function renderWidgetSettings() {
+function renderWidgetSettings(searchTerm = "") {
   loadWidgetSettingsConfig().then((widgets) => {
     getIntegrations((integrations) => {
       widgetSettingsContainer.innerHTML = "";
 
       widgets.forEach((widget) => {
         // widgetSettingsContainer.appendChild(document.createElement("br"));
+
+
+
+
+        
+        const search = searchTerm.trim().toLowerCase();
+
+        const widgetMatches =
+          widget.title.toLowerCase().includes(search) ||
+          widget.key.toLowerCase().includes(search);
+
+        const settingMatches = widget.settings.some(setting =>
+          Object.values(setting).some(value =>
+            String(value).toLowerCase().includes(search)
+          )
+        );
+
+        if (search && !widgetMatches && !settingMatches) {
+          return;
+        }
+
+
+
 
 
 
@@ -980,8 +1003,17 @@ if (importButton) {
 
 
 
+// ==========================================
+// WIDGET SEARCH
+// ==========================================
 
+const widgetSearch = document.getElementById("widgetSearch");
 
+if (widgetSearch) {
+  widgetSearch.addEventListener("input", () => {
+    renderWidgetSettings(widgetSearch.value);
+  });
+}
 
 
 

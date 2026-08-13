@@ -86,7 +86,7 @@
 
 
 
-    
+
     button {
       width: 100%;
       margin-top: 8px;
@@ -611,25 +611,47 @@
 
     </summary>
 
+
+
+    <br>
+
+    <div class="title-2">Widget Settings</div>
+
+
+
+
+    <div class="row" style="margin-top:12px;">
+      <span>Snap widgets to grid</span>
+      <label class="switch">
+        <input type="checkbox" id="widgetGridSnapToggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+
+
+    <hr>
+    <div class="title-2">Addons</div>
+
+
     <div class="details-content">
 
-
-      <br>
-      <div class="title-2">Widget Settings</div>
-
-      <div class="row" style="margin-top:12px;">
-        <span>Snap widgets to grid</span>
-        <label class="switch">
-          <input type="checkbox" id="widgetGridSnapToggle">
-          <span class="slider"></span>
-        </label>
+      <div style="margin-top:10px;">
+        <input type="text" id="widgetSearch" placeholder="🔎︎  Search addons + widgets..." style="
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      background: rgba(0,0,0,0.2);
+      color: var(--text);
+      font-size: 12px;
+      box-sizing: border-box;
+    ">
       </div>
 
 
-
       <hr>
-      <div class="title-2">Addons</div>
-
 
       <div id="widgetSettingsContainer" style="margin-top:12px;"></div>
 
