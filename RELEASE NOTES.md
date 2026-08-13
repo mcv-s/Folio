@@ -4,6 +4,7 @@
 ## Folio 3.0
 
 -   Add RSS Feed widget
+-   Fix blur on the popup
 
 
 

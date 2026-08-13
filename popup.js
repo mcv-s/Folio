@@ -790,6 +790,8 @@ function createSettingInput(setting, widgetState) {
     if (isTextarea) {
       input.style.minHeight = "90px";
       input.style.resize = "vertical";
+      input.style.overflow = "auto";
+      input.style.scrollbarGutter = "stable";
     }
 
     input.addEventListener("input", () => {
