@@ -208,7 +208,7 @@ export async function init(markdownNote) {
   } catch (error) {
 
     console.error(
-      "Failed to render markdown:",
+      "[Folio] Failed to render markdown:",
       error
     );
 

@@ -268,3 +268,158 @@ chrome.commands.onCommand.addListener(async (command) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+
+  console.log("[Folio] Background received message:", message);
+
+
+  if (message.type !== "CHATGPT_USAGE") {
+    console.log("[Folio] Message was not ChatGPT usage.");
+    return;
+  }
+
+
+  const data = message.data;
+
+  const primaryWindow =
+    data?.rate_limit?.primary_window;
+
+
+  if (!primaryWindow) {
+
+    console.error(
+      "[Folio] No primary usage window found!"
+    );
+
+    sendResponse({
+      ok: false,
+      error: "No primary usage window"
+    });
+
+    return;
+  }
+
+
+  const usage = {
+
+    usedPercent:
+      primaryWindow.used_percent,
+
+    limitWindowSeconds:
+      primaryWindow.limit_window_seconds,
+
+    resetAfterSeconds:
+      primaryWindow.reset_after_seconds,
+
+    resetAt:
+      primaryWindow.reset_at,
+
+    lastUpdated:
+      Date.now()
+
+  };
+
+
+  console.log(
+    "[Folio] About to save usage:",
+    usage
+  );
+
+
+  chrome.storage.local.set(
+    {
+      chatgptUsage: usage
+    },
+    () => {
+
+      if (chrome.runtime.lastError) {
+
+        console.error(
+          "[Folio] STORAGE ERROR:",
+          chrome.runtime.lastError.message
+        );
+
+        sendResponse({
+          ok: false,
+          error: chrome.runtime.lastError.message
+        });
+
+        return;
+      }
+
+
+      console.log(
+        `[Folio] Saved usage percentage (${usage.usedPercent}%) to storage`
+      );
+
+      console.log(
+        `[Folio] Saved usage reset date (${new Date(
+          usage.resetAt * 1000
+        ).toLocaleString()}) to storage`
+      );
+
+      console.log(
+        `[Folio] Saved reset countdown (${usage.resetAfterSeconds} seconds) to storage`
+      );
+
+      console.log(
+        `[Folio] Saved usage window (${usage.limitWindowSeconds} seconds) to storage`
+      );
+
+      console.log(
+        `[Folio] Saved last updated (${new Date(
+          usage.lastUpdated
+        ).toLocaleString()}) to storage`
+      );
+
+
+      console.log(
+        "[Folio] >>> CHATGPT USAGE SAVED <<<",
+        usage
+      );
+
+
+      sendResponse({
+        ok: true,
+        usage: usage
+      });
+
+    }
+  );
+
+
+  // IMPORTANT:
+  // chrome.storage.local.set() is asynchronous.
+  // Keep the message channel alive until its callback runs.
+  return true;
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

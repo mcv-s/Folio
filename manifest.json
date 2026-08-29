@@ -3,7 +3,6 @@
   "name": "__MSG_extensionName__",
   "version": "3.0",
   "description": "__MSG_extensionDescription__",
-  "short_description": "__MSG_extensionShortDescription__",
   "default_locale": "en",
   "chrome_url_overrides": {
     "newtab": "newtab.html"
@@ -70,22 +69,21 @@
   "content_scripts": [
     {
       "matches": [
-        "<all_urls>"
+        "https://chatgpt.com/*"
       ],
       "js": [
         "content.js"
-      ]
+      ],
+      "run_at": "document_start"
     }
   ],
   "web_accessible_resources": [
     {
       "resources": [
-        "bar.html",
-        "bar.css",
-        "bar.js"
+        "page-hook.js"
       ],
       "matches": [
-        "<all_urls>"
+        "https://chatgpt.com/*"
       ]
     }
   ]

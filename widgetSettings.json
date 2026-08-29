@@ -89,6 +89,24 @@
       ]
     },
     {
+      "key": "chatgpt-usage",
+      "title": "ChatGPT Usage",
+      "settings": [
+        {
+          "key": "enabled",
+          "label": "Enable a widget showing your ChatGPT usage",
+          "type": "toggle",
+          "default": false
+        },
+        {
+          "key": "none",
+          "label": "Gets usage info from chatgpt APIs when you visit the site. Only usage and reset dates are stored, locally on your device.",
+          "type": "h4",
+          "default": ""
+        }
+      ]
+    },
+    {
       "key": "sticky-note",
       "title": "Sticky Note",
       "settings": [

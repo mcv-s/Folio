@@ -1,3 +1,87 @@
+console.log("[Folio] content.js loaded on:", location.href);
+
+const script = document.createElement("script");
+
+script.src = chrome.runtime.getURL("page-hook.js");
+
+script.onload = () => {
+  console.log("[Folio] page-hook.js injected");
+  script.remove();
+};
+
+script.onerror = error => {
+  console.error("[Folio] FAILED to inject page-hook.js", error);
+};
+
+(document.head || document.documentElement).appendChild(script);
+
+
+
+
+
+
+
+// Add message listener
+
+window.addEventListener("message", event => {
+
+  if (event.source !== window) return;
+
+  if (event.data?.source !== "folio") return;
+
+  if (event.data?.type !== "CHATGPT_USAGE") return;
+
+
+  console.log(
+    "[Folio] >>> USAGE RESPONSE RECEIVED <<<",
+    event.data.data
+  );
+
+
+  chrome.runtime.sendMessage({
+    type: "CHATGPT_USAGE",
+    data: event.data.data
+  }, response => {
+
+    if (chrome.runtime.lastError) {
+
+      console.error(
+        "[Folio] Background message failed:",
+        chrome.runtime.lastError.message
+      );
+
+      return;
+    }
+
+
+    console.log(
+      "[Folio] Background acknowledged:",
+      response
+    );
+
+  });
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 let folioBar = null;
 
 

@@ -2035,7 +2035,7 @@ function saveCalendarCache(calendar, events) {
   catch (err) {
 
     console.warn(
-      "Failed to cache calendar:",
+      "[Folio] Failed to cache calendar:",
       err
     );
 
@@ -2085,7 +2085,7 @@ function loadCalendarCache(calendar) {
   catch (err) {
 
     console.warn(
-      "Failed to read calendar cache:",
+      "[Folio] Failed to read calendar cache:",
       err
     );
 
@@ -2327,7 +2327,7 @@ export async function init(calendar) {
 
 
       console.log(
-        "Calendar refreshed:",
+        "[Folio] Calendar refreshed:",
         events.length,
         "events"
       );
@@ -2336,7 +2336,7 @@ export async function init(calendar) {
     catch (err) {
 
       console.error(
-        "Calendar refresh failed:",
+        "[Folio] Calendar refresh failed:",
         err
       );
 
@@ -2726,7 +2726,7 @@ export async function init(calendar) {
 
 
     console.log(
-      "Loaded calendar from cache:",
+      "[Folio] Loaded calendar from cache:",
       events.length,
       "events"
     );
