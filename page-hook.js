@@ -30,10 +30,7 @@ window.fetch = async function (...args) {
       // Full usage response
       // ------------------------------------------
 
-      console.log(
-        "[Folio] >>> CHATGPT USAGE DATA <<<",
-        data
-      );
+      console.log( "[Folio] >>> CHATGPT USAGE DATA <<<", data );
 
 
       // ------------------------------------------
@@ -42,10 +39,7 @@ window.fetch = async function (...args) {
 
       const rateLimit = data?.rate_limit;
 
-      console.log(
-        "[Folio] >>> CHATGPT RATE LIMIT <<<",
-        rateLimit
-      );
+      // console.log( "[Folio] >>> CHATGPT RATE LIMIT <<<", rateLimit );
 
 
       // ------------------------------------------
@@ -55,33 +49,8 @@ window.fetch = async function (...args) {
       const primaryWindow =
         rateLimit?.primary_window;
 
-      console.log(
-        "[Folio] >>> PRIMARY USAGE WINDOW <<<",
-        primaryWindow
-      );
+     // console.log( "[Folio] >>> PRIMARY USAGE WINDOW <<<",primaryWindow);
 
-
-      if (primaryWindow) {
-
-        console.log(
-          `[Folio] Usage percentage: ${primaryWindow.used_percent}%`
-        );
-
-        console.log(
-          `[Folio] Limit window: ${primaryWindow.limit_window_seconds} seconds`
-        );
-
-        console.log(
-          `[Folio] Reset after: ${primaryWindow.reset_after_seconds} seconds`
-        );
-
-        console.log(
-          `[Folio] Reset date: ${new Date(
-            primaryWindow.reset_at * 1000
-          ).toLocaleString()}`
-        );
-
-      }
 
 
       // ------------------------------------------

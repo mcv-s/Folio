@@ -21,6 +21,8 @@ script.onerror = error => {
 
 
 
+
+
 // Add message listener
 
 window.addEventListener("message", event => {
@@ -53,11 +55,6 @@ window.addEventListener("message", event => {
       return;
     }
 
-
-    console.log(
-      "[Folio] Background acknowledged:",
-      response
-    );
 
   });
 

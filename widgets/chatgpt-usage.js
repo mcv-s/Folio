@@ -25,7 +25,7 @@ export async function init(chatgpt_usage) {
 
   resetInfo.style.cssText = `
     position:absolute;
-    right:35px;
+    right:10px;
     top:7px;
 
     font-size:11px;
@@ -62,8 +62,8 @@ export async function init(chatgpt_usage) {
 
   usageButton.style.cssText = `
   position:absolute;
-  right:12px;
-  top:5px;
+  right:7px;
+  top:37px;
 
   background:none;
   border:none;
@@ -114,6 +114,10 @@ export async function init(chatgpt_usage) {
 
     transition:opacity .15s ease;
   `;
+
+
+
+
 
 
   box.appendChild(optimalInfo);
@@ -423,7 +427,7 @@ export async function init(chatgpt_usage) {
 
       scale = Math.min(
         width / 230,
-        height / 100
+        height / 50
       );
 
     }
@@ -440,7 +444,7 @@ export async function init(chatgpt_usage) {
 
       scale = Math.min(
         width / 155,
-        height / 155
+        height / 100
       );
 
     }
@@ -460,6 +464,12 @@ export async function init(chatgpt_usage) {
   resizeObserver.observe(scaleWrapper);
 
 
+
+
+
+
+
+  
   // ------------------------------------------
   // Formatting
   // ------------------------------------------

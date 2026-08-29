@@ -286,7 +286,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 
   if (message.type !== "CHATGPT_USAGE") {
-    console.log("[Folio] Message was not ChatGPT usage.");
     return;
   }
 
