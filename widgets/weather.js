@@ -370,7 +370,7 @@ export async function init(weather) {
     `;
 
 
-    console.error(err);
+    console.error("[Folio] " + err);
 
   }
 

@@ -96,6 +96,6 @@ export async function init(TRMNL) {
       </div>
     `;
 
-    console.error(error);
+    console.error("[Folio] " + error);
   }
 }

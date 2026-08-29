@@ -4,6 +4,8 @@ import { createWidget } from "../widgetCore.js";
 
 export async function init(chatgpt_usage) {
 
+
+
   const box = createWidget(
     "chatgpt-usage",
     "ChatGPT Usage"
@@ -23,7 +25,7 @@ export async function init(chatgpt_usage) {
 
   resetInfo.style.cssText = `
     position:absolute;
-    right:10px;
+    right:35px;
     top:7px;
 
     font-size:11px;
@@ -40,8 +42,55 @@ export async function init(chatgpt_usage) {
 
   box.appendChild(resetInfo);
 
+
+
   // ------------------------------------------
-  // Optimal usage information in the bottom bar
+  // Usage settings button
+  // ------------------------------------------
+
+  const usageButton = document.createElement("a");
+
+  usageButton.className = "chatgpt-usage-button";
+
+  usageButton.href =
+    "https://chatgpt.com/#settings/Usage";
+
+  usageButton.target = "_blank";
+
+  usageButton.innerHTML =
+    `<i class="ph ph-arrows-clockwise"></i>`;
+
+  usageButton.style.cssText = `
+  position:absolute;
+  right:12px;
+  top:5px;
+
+  background:none;
+  border:none;
+
+  color:inherit;
+
+  cursor:pointer;
+
+  font-size:18px;
+
+  opacity:0;
+
+  text-decoration:none;
+
+  transition:opacity .15s ease;
+`;
+
+  box.appendChild(usageButton);
+
+
+
+
+
+
+
+  // ------------------------------------------
+  // Optimal usage information in the bottom
   // ------------------------------------------
 
   const optimalInfo = document.createElement("div");
@@ -70,27 +119,39 @@ export async function init(chatgpt_usage) {
   box.appendChild(optimalInfo);
 
 
-  
+
   // Show more usage information when hovering
   // over the widget.
 
 
   box.addEventListener("mouseenter", () => {
 
-    const optimalBar = content.querySelector(".chatgpt-optimal-bar");
+    const optimalBar =
+      content.querySelector(".chatgpt-optimal-bar");
+
     resetInfo.style.opacity = "0.6";
     optimalInfo.style.opacity = "0.6";
-    optimalBar.style.opacity = "0.6";
+    usageButton.style.opacity = "0.6";
+
+    if (optimalBar) {
+      optimalBar.style.opacity = "0.6";
+    }
 
   });
 
 
   box.addEventListener("mouseleave", () => {
 
-    const optimalBar = content.querySelector(".chatgpt-optimal-bar");
+    const optimalBar =
+      content.querySelector(".chatgpt-optimal-bar");
+
     resetInfo.style.opacity = "0";
     optimalInfo.style.opacity = "0";
-    optimalBar.style.opacity = "0";
+    usageButton.style.opacity = "0";
+
+    if (optimalBar) {
+      optimalBar.style.opacity = "0";
+    }
 
   });
 
@@ -172,7 +233,7 @@ export async function init(chatgpt_usage) {
 
     .chatgpt-optimal-bar {
 
-      position:absolute;d
+      position:absolute;
 
       left:0;
       top:0;
@@ -181,7 +242,11 @@ export async function init(chatgpt_usage) {
 
       border-radius:999px;
 
+      opacity: 0;
+
       pointer-events:none;
+
+      transition:opacity .4s ease;
 
     }
 
@@ -540,7 +605,7 @@ export async function init(chatgpt_usage) {
           text-align:center;
         ">
 
-          Open ChatGPT to get usage
+          
 
         </div>
 
@@ -587,6 +652,9 @@ export async function init(chatgpt_usage) {
 
     content.innerHTML = `
 
+
+    
+
       <div class="chatgpt-main">
 
         <div>
@@ -611,25 +679,23 @@ export async function init(chatgpt_usage) {
             "
           ></div>
 
-          ${
-            optimalRemaining !== null
-              ? `
+          ${optimalRemaining !== null
+        ? `
                 <div
                   class="
                     chatgpt-optimal-bar
-                    ${
-                      remaining >= optimalRemaining
-                        ? "chatgpt-optimal-good"
-                        : "chatgpt-optimal-bad"
-                    }
+                    ${remaining >= optimalRemaining
+          ? "chatgpt-optimal-good"
+          : "chatgpt-optimal-bad"
+        }
                   "
                   style="
                     width:${optimalRemaining}%;
                   "
                 ></div>
               `
-              : ""
-          }
+        : ""
+      }
 
         </div>
 

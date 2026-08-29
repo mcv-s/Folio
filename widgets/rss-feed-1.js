@@ -181,7 +181,7 @@ export async function init(settings) {
       box.innerHTML = html;
 
     } catch (error) {
-      console.error(`Folio RSS Feed error (${rssFeed}):`, error);
+      console.error(`[Folio] RSS Feed error (${rssFeed}):`, error);
 
       // Still create a widget if the feed failed.
       const box = createWidget(
