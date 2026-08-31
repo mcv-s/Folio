@@ -112,7 +112,7 @@ export async function init(chatgpt_usage) {
 
     pointer-events:none;
 
-    transition:opacity .15s ease;
+    transition:opacity .4s ease;
   `;
 
 
@@ -257,7 +257,7 @@ export async function init(chatgpt_usage) {
 
     .chatgpt-optimal-good {
 
-      background:rgba(150, 220, 170, 0.55);
+      background:rgba(150, 220, 170, 0.85);
 
     }
 
