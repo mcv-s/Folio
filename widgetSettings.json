@@ -99,10 +99,8 @@
           "default": false
         },
         {
-          "key": "none",
-          "label": "Gets usage info from chatgpt APIs when you visit the site. Only usage and reset dates are stored, locally on your device.",
-          "type": "h4",
-          "default": ""
+          "label": "Scrapes usage info from network requests when you visit the site. Only usage and reset dates are stored, locally on your device. Not ideal, but the only way to get this info without an official API.",
+          "type": "info"
         }
       ]
     },
@@ -124,7 +122,7 @@
       "settings": [
         {
           "key": "enabled",
-          "label": "Enable TRMNL mirror widget",
+          "label": "Enable a widget to show your TRMNL",
           "type": "toggle",
           "default": false
         },
@@ -137,7 +135,7 @@
         },
         {
           "key": "none",
-          "label": "Your Device > Developer Perks",
+          "label": "Devices > Click your device > Developer Perks",
           "type": "link",
           "value": "https://trmnl.com/devices/",
           "default": ""

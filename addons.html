@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Folio: Addons</title>
+
+  <link rel="stylesheet" href="styleVars.css">
+  <style>
+    body {
+      margin: 0 auto;
+      min-height: 100vh;
+      font-family: system-ui, sans-serif;
+      width: min(75%, 750px);
+      max-width: 100%;
+      padding: 16px;
+      background: var(--bg);
+      color: var(--text);
+
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+
+    }
+
+    body.light {
+      scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+    }
+
+
+
+    hr {
+      border: none;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.12);
+      margin: 12px 0;
+    }
+
+    body.light hr {
+      background: rgba(0, 0, 0, 0.12);
+    }
+
+
+
+
+
+
+
+
+    .card, #addon-item {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
+      width: 95%;
+    }
+
+    .title {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--muted);
+    }
+
+    .title-2 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--muted2);
+    }
+
+    textarea {
+      width: 100%;
+      height: 90px;
+      resize: both;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.2);
+      color: var(--text);
+      font-size: 12px;
+      box-sizing: border-box;
+
+      /* Hide the native resize corner */
+      scrollbar-gutter: stable;
+    }
+
+
+
+
+
+    button {
+      width: 100%;
+      margin-top: 8px;
+      padding: 8px;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      opacity: 1;
+      transition: 0.2s ease;
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+
+    .hint {
+      font-size: 11px;
+      opacity: 0.7;
+      margin-top: 6px;
+    }
+
+    body::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    body::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    body::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+    }
+
+    body.light::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.15);
+    }
+
+    body::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    body.light::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+
+    .info {
+      font-size: 8px;
+      opacity: 0.3;
+      margin-top: 6px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      margin: 6px 0;
+    }
+
+    .switch {
+      position: relative;
+      width: 38px;
+      height: 22px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: #555;
+      transition: .2s;
+      border-radius: 999px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      top: 3px;
+      background-color: white;
+      transition: .2s;
+      border-radius: 50%;
+    }
+
+    input:checked+.slider {
+      background-color: var(--accent);
+    }
+
+    input:checked+.slider:before {
+      transform: translateX(16px);
+    }
+
+    /* Advanced dropdown */
+    details {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    summary {
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+
+
+
+
+
+    .card,
+    details {
+      width: 100%;
+      margin: 0 auto 12px auto;
+      box-sizing: border-box;
+    }
+
+
+
+
+
+
+    /* NEW: Upload button styling */
+    .upload-btn {
+      display: inline-flex;
+      width: calc(100%);
+      /* respects card padding visually */
+      margin: 0 auto 10px auto;
+      padding: 10px;
+      border-radius: 10px;
+      background: rgba(79, 156, 255, 0.15);
+      border: 1px solid rgba(79, 156, 255, 0.4);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+    }
+
+    .upload-btn input {
+      display: none;
+    }
+
+    .mini {
+      font-size: 11px;
+      opacity: 0.7;
+      margin-top: 6px;
+    }
+
+
+    .row:has(#enterToggle) {
+      display: none;
+    }
+
+
+
+
+
+    a,
+    a:visited,
+    a:hover,
+    a:active {
+      color: inherit;
+    }
+
+
+
+
+    .chevron {
+      width: 10px;
+      height: 10px;
+      transition: transform 0.2s ease;
+      opacity: 0.7;
+    }
+
+    details[open] .chevron {
+      transform: rotate(180deg);
+    }
+
+
+
+
+
+
+  </style>
+</head>
+
+<body>
+
+  <h1>Folio Addons</h1>
+  <hr>
+  <br>
+
+
+
+  <div class="card">
+    <div class="title">Info</div>
+
+
+
+    <div class="info">Folio's Addons provide integrations with various services and tools to let you see the data you want to see.</div>
+
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <div class="card">
+    <div class="title">Widget Settings</div>
+
+
+
+
+    <div class="row" style="margin-top:12px;">
+      <span>Snap widgets to grid</span>
+      <label class="switch">
+        <input type="checkbox" id="widgetGridSnapToggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+
+  </div>
+
+
+
+    
+
+
+    <hr>
+    <div class="title-2">Search</div>
+
+
+    <div class="details-content">
+
+      <div style="margin-top:10px;">
+        <input type="text" id="widgetSearch" placeholder="🔎︎  Search addons + widgets..." style="
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      background: rgba(0,0,0,0.2);
+      color: var(--text);
+      font-size: 12px;
+      box-sizing: border-box;
+    ">
+      </div>
+
+
+
+
+      <div id="widgetSettingsContainer" style="margin-top:12px;"></div>
+
+
+
+
+      
+      <div class="info" style="margin-top:12px;">Folio and its developers do not collect your data.</div>
+      <div class="info">By using Folio, you agree to our privacy policy. <a
+          href="https://mcv-s.github.io/folio/privacy.html" target="_blank" rel="noopener noreferrer">Learn more.</a>
+      </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <br>
+  <hr><br>
+
+  <div class="hint">Changes take place upon refresh or new tab visit.</div>
+
+  <div class="hint">By using Folio, or its integrations, you take on full responsibility for any data shared with Folio
+    or its partners.</div>
+
+  <br><a href="https://mcv-s.github.io/folio/privacy.html" target="_blank" rel="noopener noreferrer">Read our privacy
+    policy</a>
+
+  <br><br>
+
+  <script src="storage.js"></script>
+  <script src="addons.js"></script>
+
+</body>
+
+</html>

@@ -135,22 +135,6 @@ document.getElementById("saveCss").addEventListener("click", () => {
 // ===== 24-HOUR TIME =====
 const _24hourTimeToggle = document.getElementById("_24hourTimeToggle");
 
-const widgetGridSnapToggle = document.getElementById("widgetGridSnapToggle");
-
-if (widgetGridSnapToggle) {
-  storage.get(GRID_SNAP_KEY, (data) => {
-    const saved = data[GRID_SNAP_KEY] ?? localStorage.getItem(GRID_SNAP_KEY) === "true";
-    widgetGridSnapToggle.checked = saved === true;
-    localStorage.setItem(GRID_SNAP_KEY, String(saved));
-  });
-
-  widgetGridSnapToggle.addEventListener("change", (e) => {
-    const enabled = e.target.checked;
-    localStorage.setItem(GRID_SNAP_KEY, String(enabled));
-    storage.set({ [GRID_SNAP_KEY]: enabled });
-  });
-}
-
 // restore state (default = false)
 storage.get("24hourTime", (data) => {
   _24hourTimeToggle.checked = data["24hourTime"] === true;
@@ -665,204 +649,240 @@ redirectUrlInput.addEventListener("input", (e) => {
 
 
 
-// ---------- Integrations -------------
+// // ---------- Integrations -------------
 
-const INTEGRATIONS_KEY = "integrations";
-const WIDGET_SETTINGS_URL = "widgetSettings.json";
-const widgetSettingsContainer = document.getElementById("widgetSettingsContainer");
+// const INTEGRATIONS_KEY = "integrations";
+// const WIDGET_SETTINGS_URL = "widgetSettings.json";
+// const widgetSettingsContainer = document.getElementById("widgetSettingsContainer");
 
-function getIntegrations(cb) {
-  storage.get(INTEGRATIONS_KEY, (data) => {
-    cb(data[INTEGRATIONS_KEY] || {});
-  });
-}
+// function getIntegrations(cb) {
+//   storage.get(INTEGRATIONS_KEY, (data) => {
+//     cb(data[INTEGRATIONS_KEY] || {});
+//   });
+// }
 
-function setIntegrations(update) {
-  storage.get(INTEGRATIONS_KEY, (data) => {
-    const current = data[INTEGRATIONS_KEY] || {};
-    const next = { ...current, ...update };
+// function setIntegrations(update) {
+//   storage.get(INTEGRATIONS_KEY, (data) => {
+//     const current = data[INTEGRATIONS_KEY] || {};
+//     const next = { ...current, ...update };
 
-    storage.set({
-      [INTEGRATIONS_KEY]: next
-    });
-  });
-}
+//     storage.set({
+//       [INTEGRATIONS_KEY]: next
+//     });
+//   });
+// }
 
-function saveWidgetSetting(widgetKey, settingKey, value) {
-  getIntegrations((current) => {
-    const widgetState = { ...(current[widgetKey] || {}) };
-    widgetState[settingKey] = value;
+// function saveWidgetSetting(widgetKey, settingKey, value) {
+//   getIntegrations((current) => {
+//     const widgetState = { ...(current[widgetKey] || {}) };
+//     widgetState[settingKey] = value;
 
-    setIntegrations({
-      [widgetKey]: widgetState
-    });
-  });
-}
+//     setIntegrations({
+//       [widgetKey]: widgetState
+//     });
+//   });
+// }
 
-function loadWidgetSettingsConfig() {
-  return fetch(WIDGET_SETTINGS_URL).then(async (res) => {
-    const settings = await res.json();
-    return settings.widgets || [];
-  });
-}
+// function loadWidgetSettingsConfig() {
+//   return fetch(WIDGET_SETTINGS_URL).then(async (res) => {
+//     const settings = await res.json();
+//     return settings.widgets || [];
+//   });
+// }
 
-function createSettingInput(setting, widgetState) {
-  const wrapper = document.createElement("div");
-  wrapper.className = "row";
+// function createSettingInput(setting, widgetState) {
+//   const wrapper = document.createElement("div");
+//   wrapper.className = "row";
 
-  if (setting.type === "link") {
-    const link = document.createElement("a");
+//   if (setting.type === "link") {
+//     const link = document.createElement("a");
 
-    link.textContent = setting.label;
-    link.href = setting.value;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
+//     link.textContent = setting.label;
+//     link.href = setting.value;
+//     link.target = "_blank";
+//     link.rel = "noopener noreferrer";
 
-    link.style.color = "var(--accent)";
-    link.style.textDecoration = "underline";
-    link.style.cursor = "pointer";
+//     link.style.color = "var(--accent)";
+//     link.style.textDecoration = "underline";
+//     link.style.cursor = "pointer";
 
-    wrapper.appendChild(link);
+//     wrapper.appendChild(link);
 
-    return wrapper;
-  }
+//     return wrapper;
+//   }
 
-  if (setting.type === "h4") {
-    const text = document.createElement("h4");
+//   if (setting.type === "h4") {
+//     const text = document.createElement("h4");
 
-    text.textContent = setting.label;
+//     text.textContent = setting.label;
 
-    text.style.margin = "8px 0";
-    text.style.fontSize = "13px";
-    text.style.fontWeight = "600";
+//     text.style.margin = "8px 0";
+//     text.style.fontSize = "13px";
+//     text.style.fontWeight = "600";
 
-    wrapper.appendChild(text);
+//     wrapper.appendChild(text);
 
-    return wrapper;
-  }
-
-
-  const label = document.createElement("span");
-  label.textContent = setting.label;
-  wrapper.appendChild(label);
-
-  if (setting.type === "toggle") {
-    const control = document.createElement("label");
-    control.className = "switch";
-
-    const input = document.createElement("input");
-    input.type = "checkbox";
-    input.checked = !!(widgetState[setting.key] ?? setting.default);
-
-    input.addEventListener("change", () => {
-      saveWidgetSetting(setting.widgetKey, setting.key, input.checked);
-    });
-
-    const slider = document.createElement("span");
-    slider.className = "slider";
-
-    control.appendChild(input);
-    control.appendChild(slider);
-    wrapper.appendChild(control);
-  } else {
-    const isTextarea = setting.type === "textarea";
-    const input = isTextarea
-      ? document.createElement("textarea")
-      : document.createElement("input");
-
-    if (!isTextarea) {
-      input.type = "text";
-    }
-
-    input.placeholder = setting.placeholder || "";
-    input.value = widgetState[setting.key] ?? setting.default ?? "";
-    input.style.width = "100%";
-    input.style.padding = "10px";
-    input.style.borderRadius = "10px";
-    input.style.border = "none";
-    input.style.outline = "none";
-    input.style.background = "rgba(0,0,0,0.2)";
-    input.style.color = "var(--text)";
-    input.style.fontSize = "12px";
-    input.style.boxSizing = "border-box";
-    input.style.marginTop = "6px";
-
-    if (isTextarea) {
-      input.style.minHeight = "90px";
-      input.style.resize = "vertical";
-      input.style.overflow = "auto";
-      input.style.scrollbarGutter = "stable";
-    }
-
-    input.addEventListener("input", () => {
-      saveWidgetSetting(setting.widgetKey, setting.key, input.value);
-    });
-
-    wrapper.appendChild(input);
-  }
-
-  return wrapper;
-}
-
-function renderWidgetSettings(searchTerm = "") {
-  loadWidgetSettingsConfig().then((widgets) => {
-    getIntegrations((integrations) => {
-      widgetSettingsContainer.innerHTML = "";
-
-      widgets.forEach((widget) => {
-        // widgetSettingsContainer.appendChild(document.createElement("br"));
+//     return wrapper;
+//   }
 
 
+//   const label = document.createElement("span");
+//   label.textContent = setting.label;
+//   wrapper.appendChild(label);
 
+//   if (setting.type === "toggle") {
+//     const control = document.createElement("label");
+//     control.className = "switch";
 
-        
-        const search = searchTerm.trim().toLowerCase();
+//     const input = document.createElement("input");
+//     input.type = "checkbox";
+//     input.checked = !!(widgetState[setting.key] ?? setting.default);
 
-        const widgetMatches =
-          widget.title.toLowerCase().includes(search) ||
-          widget.key.toLowerCase().includes(search);
+//     input.addEventListener("change", () => {
+//       saveWidgetSetting(setting.widgetKey, setting.key, input.checked);
+//     });
 
-        const settingMatches = widget.settings.some(setting =>
-          Object.values(setting).some(value =>
-            String(value).toLowerCase().includes(search)
-          )
-        );
+//     const slider = document.createElement("span");
+//     slider.className = "slider";
 
-        if (search && !widgetMatches && !settingMatches) {
-          return;
-        }
+//     control.appendChild(input);
+//     control.appendChild(slider);
+//     wrapper.appendChild(control);
+//   } else {
+//     const isTextarea = setting.type === "textarea";
+//     const input = isTextarea
+//       ? document.createElement("textarea")
+//       : document.createElement("input");
+
+//     if (!isTextarea) {
+//       input.type = "text";
+//     }
+
+//     input.placeholder = setting.placeholder || "";
+//     input.value = widgetState[setting.key] ?? setting.default ?? "";
+//     input.style.width = "100%";
+//     input.style.padding = "10px";
+//     input.style.borderRadius = "10px";
+//     input.style.border = "none";
+//     input.style.outline = "none";
+//     input.style.background = "rgba(0,0,0,0.2)";
+//     input.style.color = "var(--text)";
+//     input.style.fontSize = "12px";
+//     input.style.boxSizing = "border-box";
+//     input.style.marginTop = "6px";
+
+//     if (isTextarea) {
+//       input.style.minHeight = "90px";
+//       input.style.resize = "vertical";
+//       input.style.overflow = "auto";
+//       input.style.scrollbarGutter = "stable";
+//     }
+
+//     input.addEventListener("input", () => {
+//       saveWidgetSetting(setting.widgetKey, setting.key, input.value);
+//     });
+
+//     wrapper.appendChild(input);
+//   }
+
+//   return wrapper;
+// }
+
+// function renderWidgetSettings(searchTerm = "") {
+//   loadWidgetSettingsConfig().then((widgets) => {
+//     getIntegrations((integrations) => {
+//       widgetSettingsContainer.innerHTML = "";
+
+//       widgets.forEach((widget) => {
+//         // widgetSettingsContainer.appendChild(document.createElement("br"));
 
 
 
 
 
+//         const search = searchTerm.trim().toLowerCase();
 
-        const section = document.createElement("div");
-        section.style.marginTop = "12px";
+//         const widgetMatches =
+//           widget.title.toLowerCase().includes(search) ||
+//           widget.key.toLowerCase().includes(search);
 
-        const title = document.createElement("div");
-        title.className = "title";
-        title.textContent = widget.title;
-        section.appendChild(title);
+//         const settingMatches = widget.settings.some(setting =>
+//           Object.values(setting).some(value =>
+//             String(value).toLowerCase().includes(search)
+//           )
+//         );
 
-        const widgetState = integrations[widget.key] || {};
-
-        widget.settings.forEach((setting) => {
-          const row = createSettingInput({ ...setting, widgetKey: widget.key }, widgetState);
-          section.appendChild(row);
-        });
+//         if (search && !widgetMatches && !settingMatches) {
+//           return;
+//         }
 
 
-        widgetSettingsContainer.appendChild(section);
-        // widgetSettingsContainer.appendChild(document.createElement("br"));
-        widgetSettingsContainer.appendChild(document.createElement("hr"));
 
-      });
-    });
-  });
-}
 
-renderWidgetSettings();
+
+
+//         const section = document.createElement("div");
+//         section.style.marginTop = "12px";
+
+//         const title = document.createElement("div");
+//         title.className = "title";
+//         title.textContent = widget.title;
+//         section.appendChild(title);
+
+//         const widgetState = integrations[widget.key] || {};
+
+//         widget.settings.forEach((setting) => {
+//           const row = createSettingInput({ ...setting, widgetKey: widget.key }, widgetState);
+//           section.appendChild(row);
+//         });
+
+
+//         widgetSettingsContainer.appendChild(section);
+//         // widgetSettingsContainer.appendChild(document.createElement("br"));
+//         widgetSettingsContainer.appendChild(document.createElement("hr"));
+
+//       });
+//     });
+//   });
+// }
+
+// renderWidgetSettings();
+
+
+
+
+
+// // ==========================================
+// // WIDGET SEARCH
+// // ==========================================
+
+// const widgetSearch = document.getElementById("widgetSearch");
+
+// if (widgetSearch) {
+//   widgetSearch.addEventListener("input", () => {
+//     renderWidgetSettings(widgetSearch.value);
+//   });
+// }
+
+
+// const widgetGridSnapToggle = document.getElementById("widgetGridSnapToggle");
+
+// if (widgetGridSnapToggle) {
+//   storage.get(GRID_SNAP_KEY, (data) => {
+//     const saved = data[GRID_SNAP_KEY] ?? localStorage.getItem(GRID_SNAP_KEY) === "true";
+//     widgetGridSnapToggle.checked = saved === true;
+//     localStorage.setItem(GRID_SNAP_KEY, String(saved));
+//   });
+
+//   widgetGridSnapToggle.addEventListener("change", (e) => {
+//     const enabled = e.target.checked;
+//     localStorage.setItem(GRID_SNAP_KEY, String(enabled));
+//     storage.set({ [GRID_SNAP_KEY]: enabled });
+//   });
+// }
+
+
+
 
 
 
@@ -908,6 +928,30 @@ if (isTab) {
     window.close();
   });
 }
+
+
+
+
+
+
+// Make button to open addons page actually work
+
+document.getElementById("openAddonsPageButton")?.addEventListener("click", () => {
+  const url = runtimeGetURL("addons.html?tab=1");
+
+  if (hasChromeTabs) {
+    chrome.tabs.create({ url });
+  } else {
+    window.open(url, "_blank");
+  }
+
+  window.close();
+});
+
+
+
+
+
 
 
 
@@ -1000,20 +1044,6 @@ if (importButton) {
   });
 }
 
-
-
-
-// ==========================================
-// WIDGET SEARCH
-// ==========================================
-
-const widgetSearch = document.getElementById("widgetSearch");
-
-if (widgetSearch) {
-  widgetSearch.addEventListener("input", () => {
-    renderWidgetSettings(widgetSearch.value);
-  });
-}
 
 
 
