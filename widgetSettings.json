@@ -46,6 +46,31 @@
       ]
     },
     {
+      "key": "scratch-messages",
+      "title": "Scratch Messages",
+      "settings": [
+        {
+          "key": "enabled",
+          "label": "Enable scratch messages widget",
+          "type": "toggle",
+          "default": false
+        },
+        {
+          "key": "username",
+          "label": "",
+          "type": "text",
+          "placeholder": "Your Scratch username",
+          "default": ""
+        },
+        {
+          "key": "hideIfZero",
+          "label": "Hide the widget if the user has no messages.",
+          "type": "toggle",
+          "default": false
+        }
+      ]
+    },
+    {
       "key": "calendar",
       "title": "Calendar",
       "settings": [
